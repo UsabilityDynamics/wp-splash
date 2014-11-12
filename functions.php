@@ -230,6 +230,52 @@ class hddp extends Flawless_F {
       add_action( 'wp_ajax_remap_all', array( __CLASS__, "es_remap_all" ) );
     }
 
+    // Check whether the Meta-Box plugin is installed or not
+    add_action( 'admin_notices', array( __CLASS__, 'check_for_metabox_plugin' ) );
+    add_action( 'network_admin_notices', array( __CLASS__, 'check_for_metabox_plugin' ) );
+
+  }
+
+  static function check_for_metabox_plugin()
+  {
+    if( !defined( 'RWMB_VER' ) && current_user_can( 'manage_network_plugins' ) )
+    {
+      echo '<div class="error">';
+
+      $plugin_slug = 'meta-box';
+      $plugin_name = 'Meta Box';
+      
+      echo '<p>' . sprintf( __( 'The theme %1$s requires the plugin %2$s to work properly. Please make sure it is installed and activated.' ), 'WP-Disco v2.0', $plugin_name ) . '</p>';
+      
+      $installed_plugins = get_plugins();
+      $plugin_file = '';
+      foreach( $installed_plugins as $slug => $data ) {
+        if ( $pos = strpos( $slug, '/' ) ) {
+          if ( $plugin_slug == substr( $slug, 0, $pos ) ) {
+            $plugin_file = $slug;
+            break;
+          }
+        } elseif ( $plugin_slug == $slug ) {
+          $plugin_file = $slug;
+          break;
+        }
+      }
+      
+      if ( $plugin_file != '' ) {
+        $class  = 'button';
+        $text   = __( 'Network Activate' );
+        $title  = __( 'Activate this plugin for all sites in this network' );
+        $url    = wp_nonce_url( network_admin_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all&amp;paged=1&amp;s=' ), 'activate-plugin_' . $plugin_file );
+      } else {
+        $class  = 'install-now button';
+        $text   = __( 'Install Now' );
+        $title  = sprintf( __( 'Install %s now' ), $plugin_name );
+        $url    = wp_nonce_url( network_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug ), 'install-plugin_' . $plugin_slug );
+      }
+      echo '<p style="text-align: right;"><a class="' . $class . '" href="' . $url . '" aria-label="' . esc_attr( $title ) . '">' . $text . '</a></p>';
+      
+      echo '</div>';
+    }
   }
 
   /**
