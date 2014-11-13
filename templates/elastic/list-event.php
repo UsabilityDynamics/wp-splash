@@ -46,8 +46,8 @@
                 <ul class="hdp_event_collapsed clearfix">
                   <li data-bind="html:moment(fields.start_date[0]).format('MMM DD, YYYY')" class="hdp_event_date"></li>
                   <li data-bind="html:fields['summary']" class="hdp_event_title"></li>
-                  <li data-bind="html:fields['venue.address.city']" class="hdp_event_city"></li>
-                  <li data-bind="html:fields['venue.address.state']" class="hdp_event_state"></li>
+                  <li data-bind="html:fields['venue.address.city.name']" class="hdp_event_city"></li>
+                  <li data-bind="html:fields['venue.address.state.name']" class="hdp_event_state"></li>
                 </ul>
                 <ul class="hdp_event_expanded clearfix">
                   <li class="hdp_event_flyer">
@@ -59,11 +59,16 @@
                     <a data-bind="html:fields['summary'],attr: {href:fields.url}"></a>
                   </li>
                   <li class="hdp_event_date" data-bind="html:'<span>Date:</span> '+moment(fields.start_date[0]).format('LLLL')"></li>
-                  <li class="hdp_event_venue" data-bind="html:'<span>Location:</span> '+fields['venue.name']+', '+fields['venue.address.city']+', '+fields['venue.address.state']"></li>
+                  <li class="hdp_event_venue">
+                    <span>Location:</span>
+                    <a data-bind="html:fields['venue.name'],attr: {href: fields['venue.url']}"></a>,
+                    <a data-bind="html:fields['venue.address.city.name'],attr: {href: fields['venue.address.city.url']}"></a>,
+                    <a data-bind="html:fields['venue.address.state.name'],attr: {href: fields['venue.address.state.url']}"></a>
+                  </li>
                   <li class="hdp_event_artists" data-bind="visible:typeof fields['artists.name'] !== 'undefined'">
                     <span>Artists: </span>
                     <!-- ko foreach:fields['artists.name'] -->
-                      <a data-bind="text:$data"></a><!-- ko if:$parent.fields['artists.name'].length>$index()+1 -->, <!-- /ko -->
+                      <a data-bind="text:$data,attr: {href: $parent.fields['artists.url'][$index()]}"></a><!-- ko if:$parent.fields['artists.name'].length>$index()+1 -->, <!-- /ko -->
                     <!-- /ko -->
                   </li>
                   <li class="hdp_event_description"><p data-bind="html:fields['description']"></p></li>

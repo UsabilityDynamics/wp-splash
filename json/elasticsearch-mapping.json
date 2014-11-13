@@ -43,14 +43,32 @@
       "address": {
         "properties": {
           "city": {
-            "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": true
+            "properties": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              },
+              "url": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              }
+            }
           },
           "country": {
-            "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": true
+            "properties": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              },
+              "url": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              }
+            }
           },
           "full": {
             "type": "string",
@@ -68,9 +86,18 @@
             }
           },
           "state": {
-            "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": true
+            "properties": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              },
+              "url": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              }
+            }
           }
         }
       },
@@ -85,9 +112,18 @@
         "include_in_all": true
       },
       "type": {
-        "type": "string",
-        "index": "not_analyzed",
-        "include_in_all": true
+        "properties": {
+          "name": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          },
+          "url": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          }
+        }
       },
       "url": {
         "type": "string",
@@ -104,16 +140,34 @@
     },
     "properties": {
       "age_restriction": {
-        "type": "string",
-        "index": "not_analyzed",
-        "include_in_all": true
+        "properties": {
+          "name": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          },
+          "url": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          }
+        }
       },
       "artists": {
         "properties": {
           "genre": {
-            "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": true
+            "properties": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              },
+              "url": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              }
+            }
           },
           "name": {
             "type": "string",
@@ -153,9 +207,18 @@
         "include_in_all": false
       },
       "event_type": {
-        "type": "string",
-        "index": "not_analyzed",
-        "include_in_all": true
+        "properties": {
+          "name": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          },
+          "url": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          }
+        }
       },
       "image": {
         "properties": {
@@ -224,19 +287,46 @@
           "address": {
             "properties": {
               "city": {
-                "type": "string",
-                "index": "not_analyzed",
-                "include_in_all": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  }
+                }
               },
               "country": {
-                "type": "string",
-                "index": "not_analyzed",
-                "include_in_all": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  }
+                }
               },
               "state": {
-                "type": "string",
-                "index": "not_analyzed",
-                "include_in_all": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  }
+                }
               }
             }
           },
@@ -246,9 +336,18 @@
             "include_in_all": true
           },
           "type": {
-            "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": true
+            "properties": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              },
+              "url": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              }
+            }
           },
           "url": {
             "type": "string",
@@ -348,16 +447,34 @@
     },
     "properties": {
       "age_restriction": {
-        "type": "string",
-        "index": "not_analyzed",
-        "include_in_all": true
+        "properties": {
+          "name": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          },
+          "url": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          }
+        }
       },
       "artists": {
         "properties": {
           "genre": {
-            "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": true
+            "properties": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              },
+              "url": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              }
+            }
           },
           "name": {
             "type": "string",
@@ -397,9 +514,18 @@
         "include_in_all": false
       },
       "event_type": {
-        "type": "string",
-        "index": "not_analyzed",
-        "include_in_all": true
+        "properties": {
+          "name": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          },
+          "url": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          }
+        }
       },
       "image": {
         "properties": {
@@ -468,19 +594,46 @@
           "address": {
             "properties": {
               "city": {
-                "type": "string",
-                "index": "not_analyzed",
-                "include_in_all": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  }
+                }
               },
               "country": {
-                "type": "string",
-                "index": "not_analyzed",
-                "include_in_all": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  }
+                }
               },
               "state": {
-                "type": "string",
-                "index": "not_analyzed",
-                "include_in_all": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  }
+                }
               }
             }
           },
@@ -490,9 +643,18 @@
             "include_in_all": true
           },
           "type": {
-            "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": true
+            "properties": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              },
+              "url": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              }
+            }
           },
           "url": {
             "type": "string",
@@ -511,16 +673,34 @@
     },
     "properties": {
       "age_restriction": {
-        "type": "string",
-        "index": "not_analyzed",
-        "include_in_all": true
+        "properties": {
+          "name": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          },
+          "url": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          }
+        }
       },
       "artists": {
         "properties": {
           "genre": {
-            "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": true
+            "properties": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              },
+              "url": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              }
+            }
           },
           "name": {
             "type": "string",
@@ -546,9 +726,18 @@
         "include_in_all": false
       },
       "event_type": {
-        "type": "string",
-        "index": "not_analyzed",
-        "include_in_all": true
+        "properties": {
+          "name": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          },
+          "url": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          }
+        }
       },
       "image": {
         "properties": {
@@ -616,14 +805,32 @@
           "address": {
             "properties": {
               "city": {
-                "type": "string",
-                "index": "not_analyzed",
-                "include_in_all": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  }
+                }
               },
               "country": {
-                "type": "string",
-                "index": "not_analyzed",
-                "include_in_all": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  }
+                }
               },
               "full": {
                 "type": "string",
@@ -634,9 +841,18 @@
                 "type": "geo_point"
               },
               "state": {
-                "type": "string",
-                "index": "not_analyzed",
-                "include_in_all": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                    "include_in_all": true
+                  }
+                }
               }
             }
           },
@@ -646,9 +862,18 @@
             "include_in_all": true
           },
           "type": {
-            "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": true
+            "properties": {
+              "name": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              },
+              "url": {
+                "type": "string",
+                "index": "not_analyzed",
+                "include_in_all": true
+              }
+            }
           },
           "url": {
             "type": "string",
@@ -667,9 +892,18 @@
     },
     "properties": {
       "genre": {
-        "type": "string",
-        "index": "not_analyzed",
-        "include_in_all": true
+        "properties": {
+          "name": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          },
+          "url": {
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": true
+          }
+        }
       },
       "logo": {
         "type": "string",

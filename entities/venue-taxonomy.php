@@ -17,10 +17,10 @@ namespace DiscoDonniePresents {
        * @var type
        */
       public $_taxToElasticField = array(
-          'venue-type' => 'venue.type',
-          'city' => 'venue.address.city',
-          'state' => 'venue.address.state',
-          'country' => 'venue.address.country'
+          'venue-type' => 'venue.type.name',
+          'city' => 'venue.address.city.name',
+          'state' => 'venue.address.state.name',
+          'country' => 'venue.address.country.name'
       );
 
     }

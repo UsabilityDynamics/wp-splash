@@ -79,7 +79,7 @@
             'event-type':'Type',
             state:'State'
           },
-          return_fields:['summary','url', 'venue.address.city', 'address.city', 'venue.address.state', 'address.state', 'start_date', 'event_date'],
+          return_fields:['summary','url', 'venue.address.city.name', 'address.city.name', 'venue.address.state.name', 'address.state.name', 'start_date', 'event_date'],
           custom_query: {
             filter: {
               or: [
@@ -118,20 +118,20 @@
                   <!-- ko html:fields.summary --><!-- /ko -->
 
                   <!-- ko if:fields.event_date -->
-                  <br /><i data-bind="if:(fields['venue.address.city']&&fields['venue.address.state'])">
-                    <!-- ko html:fields['venue.address.city'] --><!-- /ko -->, <!-- ko html:fields['venue.address.state'] --><!-- /ko --> on <!-- ko html:moment(fields.event_date[0]).format('MMM Do, YYYY') --><!-- /ko -->
+                  <br /><i data-bind="if:(fields['venue.address.city.name']&&fields['venue.address.state.name'])">
+                    <!-- ko html:fields['venue.address.city.name'] --><!-- /ko -->, <!-- ko html:fields['venue.address.state.name'] --><!-- /ko --> on <!-- ko html:moment(fields.event_date[0]).format('MMM Do, YYYY') --><!-- /ko -->
                   </i>
                   <!-- /ko -->
 
                   <!-- ko if:fields.start_date -->
-                  <br /><i data-bind="if:(fields['venue.address.city']&&fields['venue.address.state'])">
-                    <!-- ko html:fields['venue.address.city'] --><!-- /ko -->, <!-- ko html:fields['venue.address.state'] --><!-- /ko --> on <!-- ko html:moment(fields.start_date[0]).format('MMM Do, YYYY') --><!-- /ko -->
+                  <br /><i data-bind="if:(fields['venue.address.city.name']&&fields['venue.address.state.name'])">
+                    <!-- ko html:fields['venue.address.city.name'] --><!-- /ko -->, <!-- ko html:fields['venue.address.state.name'] --><!-- /ko --> on <!-- ko html:moment(fields.start_date[0]).format('MMM Do, YYYY') --><!-- /ko -->
                   </i>
                   <!-- /ko -->
 
-                  <!-- ko if:fields['address.city'] -->
-                  <br /><i data-bind="if:(fields['address.city']&&fields['address.state'])">
-                    <!-- ko html:fields['address.city'] --><!-- /ko -->, <!-- ko html:fields['address.state'] --><!-- /ko -->
+                  <!-- ko if:fields['address.city.name'] -->
+                  <br /><i data-bind="if:(fields['address.city.name']&&fields['address.state.name'])">
+                    <!-- ko html:fields['address.city.name'] --><!-- /ko -->, <!-- ko html:fields['address.state.name'] --><!-- /ko -->
                   </i>
                   <!-- /ko -->
                 </a>
