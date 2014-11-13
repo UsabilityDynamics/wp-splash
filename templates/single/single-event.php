@@ -97,12 +97,14 @@
               <span class="event_meta_value"><?php echo $event->genre(); ?></span>
             <?php endif; ?>
 
-            <span class="event_meta_label"><i class="hdp_tour icon-dd"></i> <?php _e('Tour'); ?></span>
-            <span class="event_meta_value">
-              <a href="<?php echo get_permalink( $event->tour()->post( 'ID' ) ); ?>">
-                <?php echo $event->tour()->post( 'post_title' ); ?>
-              </a>
-            </span>
+            <?php if( $event->tour() ): ?>
+              <span class="event_meta_label"><i class="hdp_tour icon-dd"></i> <?php _e('Tour'); ?></span>
+              <span class="event_meta_value">
+                <a href="<?php echo get_permalink( $event->tour()->post( 'ID' ) ); ?>">
+                  <?php echo $event->tour()->post( 'post_title' ); ?>
+                </a>
+              </span>
+            <?php endif; ?>
 
             <?php if ( $event->artists() ): ?>
               <span class="event_meta_label"><i class="hdp_artist icon-dd"></i> <?php _e('Artist'); ?></span>

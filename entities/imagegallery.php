@@ -58,14 +58,20 @@ namespace DiscoDonniePresents {
        * @return type
        */
       public function load_event() {
-        return new Event( $this->meta( 'event' ), false );
+        if ( $this->meta( 'event' ) ) {
+          return new Event( $this->meta( 'event' ), false );
+        }
+        return false;
       }
 
       /**
        *
        */
       public function load_credit() {
-        return new Credit( $this->meta( 'creator' ), false );
+        if ( $this->meta( 'creator' ) ) {
+          return new Credit( $this->meta( 'creator' ), false );
+        }
+        return false;
       }
 
       /**

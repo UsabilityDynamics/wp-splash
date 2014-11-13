@@ -84,7 +84,10 @@ namespace DiscoDonniePresents {
        * @return \DiscoDonniePresents\Venue
        */
       public function load_venue() {
-        return new Venue( $this->meta('venue'), false );
+        if ( $this->meta('venue') ) {
+          return new Venue( $this->meta('venue'), false );
+        }
+        return false;
       }
 
       /**
@@ -161,7 +164,10 @@ namespace DiscoDonniePresents {
        * @return \DiscoDonniePresents\Tour
        */
       private function load_tour() {
-        return new Tour( $this->meta('tour') );
+        if ( $this->meta['tour'] ) {
+          return new Tour( $this->meta('tour') );
+        }
+        return false;
       }
 
       /**
