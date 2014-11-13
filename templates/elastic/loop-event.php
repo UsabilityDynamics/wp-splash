@@ -41,7 +41,12 @@
                       <a data-bind="html:fields['summary'],attr: {href:fields.url}"></a>
                     </li>
                     <li class="hdp_event_date" data-bind="html:'<span>Date:</span> '+moment(fields.start_date[0]).format('LLLL')"></li>
-                    <li class="hdp_event_venue" data-bind="html:'<span>Location:</span> '+fields['venue.name']+', '+fields['venue.address.city']+', '+fields['venue.address.state']"></li>
+                    <li class="hdp_event_venue">
+                      <span>Location:</span>
+                      <a data-bind="html:fields['venue.name'],attr: {href: fields['venue.url']}"></a>,
+                      <a data-bind="html:fields['venue.address.city']"></a>,
+                      <a data-bind="html:fields['venue.address.state']"></a>
+                    </li>
                     <li class="hdp_event_artists" data-bind="visible:typeof fields['artists.name'] !== 'undefined'">
                       <span>Artists: </span>
                       <!-- ko foreach:fields['artists.name'] -->
