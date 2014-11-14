@@ -59,6 +59,36 @@ add_action( 'flawless::setup_theme_features::after', array( 'hddp', 'carrington_
 
 add_action( 'admin_menu', array( 'hddp', "es_menu" ), 11 );
 
+/**
+ * fix for broken CSS
+ */
+if ( ! function_exists( 'flawless_module_class' ) ) {
+  /**
+   * Builds classes for the .hentry.cfct-module based on conditional elements.
+   *
+   * Called in templates intead of post_class(). On CB pages, the cfct-move is removed by flawless_carrington::module_class()
+   *
+   * @since Flawless 0.5.0
+   * @author potanin@UD
+   */
+  function flawless_module_class( $custom_class = '' ) {
+    global $flawless, $wp_query, $post;
+
+    //** Load Post Classes if this is a post */
+    $classes = get_post_class( '', $post->ID );
+
+    $classes[] = $custom_class;
+    if ( $post->post_type != 'page' ) {
+      $classes[] = 'cfct-module';
+    }
+
+    $classes = apply_filters( 'flawless::module_class', $classes );
+
+    echo implode( ' ', ( array ) $classes );
+
+  }
+}
+
 
 /**
  * Functionality for Theme
@@ -106,43 +136,46 @@ class hddp extends Flawless_F {
 
 		// Legacy filters still available in Flawless but commented out until needed.
 
-		// add_filter( 'cfct-module-dirs', array( 'flawless_carrington', 'cfct_module_dirs' ) );
-		//
-		// add_filter( 'cfct-build-display-class', array( 'flawless_carrington', 'cfct_build_display_class' ), 10, 4 );
-		//
-		// add_filter( 'cfct-generated-row-classes', array( 'flawless_carrington', 'cfct_generated_row_classes' ), 10, 4 );
-		//
-		// add_filter( 'cfct-block-c6-12-classes', function( $classes ) { return array_merge( array( 'span4', 'first' ), $classes ); }, 10, 2 );
-		// add_filter( 'cfct-block-c6-34-classes', function( $classes ) { return array_merge( array( 'span4' ), $classes ); }, 10, 2 );
-		// add_filter( 'cfct-block-c6-56-classes', function( $classes ) { return array_merge( array( 'span4', 'last' ), $classes ); }, 10, 2 );
-		//
-		// add_filter( 'cfct-block-c6-123-classes', function( $classes ) { return array_merge( array( 'span6', 'first' ), $classes ); }, 10, 2 );
-		// add_filter( 'cfct-block-c6-456-classes', function( $classes ) { return array_merge( array( 'span6', 'last' ), $classes ); }, 10, 2 );
-		// add_filter( 'cfct-block-c4-12-classes', function( $classes ) { return array_merge( array( 'span6', 'first' ), $classes ); }, 10, 2 );
-		// add_filter( 'cfct-block-c4-34-classes', function( $classes ) { return array_merge( array( 'span6', 'last' ), $classes ); }, 10, 2 );
-		//
-		// add_filter( 'cfct-block-c6-1234-classes', function( $classes ) { return array_merge( array( 'span8', 'first' ), $classes ); }, 10, 2 );
-		// add_filter( 'cfct-block-c6-3456-classes', function( $classes ) { return array_merge( array( 'span8', 'last' ), $classes ); }, 10, 2 );
-		//
-		// add_filter( 'cfct-block-c6-123456-classes', function( $classes ) { return array_merge( array( 'span12', 'first', 'full-width' ), $classes ); }, 10, 2 );
-		// add_filter( 'cfct-block-c4-1234-classes', function( $classes ) { return array_merge( array( 'span12', 'first', 'full-width' ), $classes ); }, 10, 2 );
-		//
-		// add_filter( 'cfct-build-module-class', array( 'flawless_carrington', 'cfct_module_wrapper_classes' ) , 10, 2 );
-		//
-		// add_filter( 'cfct-row-admin-html', array( 'flawless_carrington', 'cfct_row_admin_html' ), 10, 4 );
-		// add_filter( 'cfct-row-html', array( 'flawless_carrington', 'cfct_row_html' ), 10, 4 );
-		//
-		// add_filter( 'cfct-module-cfct-callout-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
-		// add_filter( 'cfct-module-cf-post-callout-module-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
-		// add_filter( 'cfct-module-cfct-heading-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
-		// add_filter( 'cfct-module-cfct-plain-text-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
-		// add_filter( 'cfct-module-cfct-rich-text-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
-		// add_filter( 'cfct-module-cfct-module-loop-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
-		// add_filter( 'cfct-module-cfct-module-loop-subpages-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
-		// add_filter( 'cfct-module-display', array( 'flawless_carrington', 'cfct_module_display' ) , 10, 3 );
-		// add_filter( 'cfct-build-module-url-unknown', array( 'flawless_carrington', 'module_url_unknown' ) , 10, 3 );
-		//
-		// add_action( 'cfct-modules-included', array( 'flawless_carrington', 'remove_loop_module' ) );
+		add_filter( 'cfct-module-dirs', array( 'flawless_carrington', 'cfct_module_dirs' ) );
+		
+		add_filter( 'cfct-build-display-class', array( 'flawless_carrington', 'cfct_build_display_class' ), 10, 4 );
+		
+		add_filter( 'cfct-generated-row-classes', array( 'flawless_carrington', 'cfct_generated_row_classes' ), 10, 4 );
+		
+		add_filter( 'cfct-block-c6-12-classes', function( $classes ) { return array_merge( array( 'span4', 'first' ), $classes ); }, 10, 2 );
+		add_filter( 'cfct-block-c6-34-classes', function( $classes ) { return array_merge( array( 'span4' ), $classes ); }, 10, 2 );
+		add_filter( 'cfct-block-c6-56-classes', function( $classes ) { return array_merge( array( 'span4', 'last' ), $classes ); }, 10, 2 );
+		
+		add_filter( 'cfct-block-c6-123-classes', function( $classes ) { return array_merge( array( 'span6', 'first' ), $classes ); }, 10, 2 );
+		add_filter( 'cfct-block-c6-456-classes', function( $classes ) { return array_merge( array( 'span6', 'last' ), $classes ); }, 10, 2 );
+		add_filter( 'cfct-block-c4-12-classes', function( $classes ) { return array_merge( array( 'span6', 'first' ), $classes ); }, 10, 2 );
+		add_filter( 'cfct-block-c4-34-classes', function( $classes ) { return array_merge( array( 'span6', 'last' ), $classes ); }, 10, 2 );
+		
+		add_filter( 'cfct-block-c6-1234-classes', function( $classes ) { return array_merge( array( 'span8', 'first' ), $classes ); }, 10, 2 );
+		add_filter( 'cfct-block-c6-3456-classes', function( $classes ) { return array_merge( array( 'span8', 'last' ), $classes ); }, 10, 2 );
+		
+		add_filter( 'cfct-block-c6-123456-classes', function( $classes ) { return array_merge( array( 'span12', 'first', 'full-width' ), $classes ); }, 10, 2 );
+		add_filter( 'cfct-block-c4-1234-classes', function( $classes ) { return array_merge( array( 'span12', 'first', 'full-width' ), $classes ); }, 10, 2 );
+		
+		add_filter( 'cfct-build-module-class', array( 'flawless_carrington', 'cfct_module_wrapper_classes' ) , 10, 2 );
+		
+		add_filter( 'cfct-row-admin-html', array( 'flawless_carrington', 'cfct_row_admin_html' ), 10, 4 );
+		add_filter( 'cfct-row-html', array( 'flawless_carrington', 'cfct_row_html' ), 10, 4 );
+		
+		add_filter( 'cfct-module-cfct-callout-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
+		add_filter( 'cfct-module-cf-post-callout-module-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
+		add_filter( 'cfct-module-cfct-heading-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
+		add_filter( 'cfct-module-cfct-plain-text-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
+		add_filter( 'cfct-module-cfct-rich-text-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
+		add_filter( 'cfct-module-cfct-module-loop-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
+		add_filter( 'cfct-module-cfct-module-loop-subpages-admin-form', array( 'flawless_carrington', 'cfct_module_admin_theme_chooser' ) , 10, 2 );
+		add_filter( 'cfct-module-display', array( 'flawless_carrington', 'cfct_module_display' ) , 10, 3 );
+		add_filter( 'cfct-build-module-url-unknown', array( 'flawless_carrington', 'module_url_unknown' ) , 10, 3 );
+		
+		add_action( 'cfct-modules-included', array( 'flawless_carrington', 'remove_loop_module' ) );
+
+    // Add body class carrington_layout or non_carrington_layout
+    add_filter( 'body_class', array( 'flawless_carrington', 'body_class' ), 200, 2 );
 
 	}
 

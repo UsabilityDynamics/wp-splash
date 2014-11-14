@@ -144,6 +144,14 @@
     background-position: -5px -66px;
   }
 
+  .ui-tabs-nav .icon-comments {
+    background-position: -125px -36px;;
+  }
+
+  .ui-tabs-nav .ui-tabs-active .icon-comments {
+    background-position: -65px -92px;
+  }
+
   .icon-hdp_video,
   .icon-video {
     background-position: -5px -93px;
@@ -195,7 +203,7 @@
   }
 
   .icon-comments-gray {
-    background-position: -65px -95px;
+    background-position: -125px -36px;
   }
 
   .ui-state-active .icon-comments-blue {
@@ -203,7 +211,7 @@
   }
 
   .icon-comments-blue {
-    background-position: -125px -36px;
+    background-position: -65px -92px;
   }
 
   .icon-comments-count {
@@ -671,6 +679,28 @@
   div[class*="span"] > .cfct-module.cfct-module-carousel {
     padding-top: 0;
   }
+  
+  /* Fixes for missing margins and padding when edit link is shown */
+  div[class*="span"] > .cfct-module,
+  div[class*="span"] > .cfct-module-border > .cfct-module {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 10px;
+    padding: 15px 10px 0px;
+    margin-bottom: 0;
+  }
+
+  .row-fluid > div[class*="span"].first > .cfct-module,
+  .row-fluid > div[class*="span"].first > .cfct-module-border > .cfct-module {
+    margin-left: 10px;
+  }
+
+  .row-fluid > div[class*="span"].full-width > .cfct-module,
+  .row-fluid > div[class*="span"].last > .cfct-module,
+  .row-fluid > div[class*="span"].full-width > .cfct-module-border > .cfct-module,
+  .row-fluid > div[class*="span"].last > .cfct-module-border > .cfct-module {
+    margin-right: 20px;
+  }
 
   /* Fixes for carousel dynamic width */
   .home .cfct-module.cfct-module-carousel ul li,
@@ -685,6 +715,8 @@
   }
 
   ul.entry-meta.gray_bar {
+    position: relative;
+    overflow: hidden;
     background: url("img/global.sprite.png") repeat-x scroll 0 -495px transparent;
     color: #B0B0B0;
     height: 43px;
@@ -700,10 +732,16 @@
   }
 
   ul.entry-meta.gray_bar > li {
+    float: left;
     display: inline-block;
+    max-width: 100%;
     line-height: 40px;
     margin-right: 10px;
     padding-left: 20px;
+  }
+
+  ul.entry-meta.gray_bar > li.posted-in {
+    max-width: 65%;
   }
 
   ul.entry-meta.gray_bar > li.permalink {
@@ -1238,6 +1276,10 @@
     height: auto;
   }
 
+  .dd_side_panel_nav {
+    margin-top: 20px;
+  }
+
   .dd_side_panel_nav, #menu-about {
     margin-bottom: 20px;
   }
@@ -1308,10 +1350,12 @@
   }
 
   .dd_side_panel_nav.entry-meta {
-    padding-left: 30px;
+    padding-left: 0;
   }
 
   .dd_side_panel_nav.entry-meta > li {
+    padding-right: 25px;
+    padding-left: 30px;
     line-height: 40px;
     color: #7d7d7d;
   }
