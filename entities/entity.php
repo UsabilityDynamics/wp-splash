@@ -104,7 +104,7 @@ namespace DiscoDonniePresents {
        * @param null $value
        * @return type
        */
-      public function meta( $key = null, $value = null ) {
+      public function meta( $key = null, $value = null, $microdata_args = false ) {
 
         //die( '<pre>' . print_r( $this->_meta, true ) . '</pre>');
         //echo "\n {$key} -> {$value}";
@@ -119,7 +119,20 @@ namespace DiscoDonniePresents {
           } elseif ( !count( $this->_meta[ $key ] ) ) {
             return false;
           }
-          return maybe_unserialize( $this->_meta[ $key ][0] );
+          $ret = maybe_unserialize( $this->_meta[ $key ][0] );
+          if( is_array( $microdata_args ) )
+          {
+            if( !is_array( $ret ) )
+            {
+              $special_args = array(
+                'fields'      => array(),
+                'origin'      => __FUNCTION__,
+              );
+              $special_args['fields'][ $key ] = $ret;
+              $ret = \DiscoDonniePresents\Microdata::handler( array_merge( $special_args, $microdata_args ) );
+            }
+          }
+          return $ret;
         }
 
         $this->_meta[ $key ] = array( $value );
@@ -148,7 +161,7 @@ namespace DiscoDonniePresents {
           );
           $special_args['fields'][ $field ] = $ret;
 
-          return $this->microdataHandler( array_merge( $special_args, $microdata_args ) );
+          return \DiscoDonniePresents\Microdata::handler( array_merge( $special_args, $microdata_args ) );
         }
 
         return $ret;
@@ -314,111 +327,13 @@ namespace DiscoDonniePresents {
             $special_args['fields']['name'] = $term->name;
             $special_args['fields']['url'] = get_term_link( $term->slug, $slug );
 
-            $links[] = $this->microdataHandler( array_merge( $special_args, $microdata_args ) );
+            $links[] = \DiscoDonniePresents\Microdata::handler( array_merge( $special_args, $microdata_args ) );
           } else {
             $links[] = '<a href="'.get_term_link( $term->slug, $slug ).'">'.$term->name.'</a>';
           }
         }
 
         return implode( $separator, $links );
-      }
-
-      /**
-       * TODO: This function is still a work in progress. It will be responsible for outputting microdata.
-       * @param  array $microdata_args an array of microdata arguments
-       * @return string the HTML string with microdata included
-       */
-      protected function microdataHandler( $microdata_args = array() ) {
-        if ( !is_array( $microdata_args ) ) {
-          return '';
-        }
-
-        extract( wp_parse_args( $microdata_args, array(
-          'build_mode'        => '',
-          'fields'            => array(),
-          'origin'            => '',
-          'super_type'        => null,
-          'super_prop'        => null,
-          'super_super_type'  => null,
-        ) ) );
-
-        if ( !is_array( $fields ) || count( $fields ) == 0 ) {
-          return '';
-        }
-
-        if ( $build_mode == '' ) {
-          $build_mode = 'text';
-          if ( in_array( $origin, array( 'termsToString' ) ) ) {
-            $build_mode = 'link';
-          } /*elseif ( in_array( $origin, array( '...' ) ) ) {
-            $build_mode = 'image';
-          }*/
-        }
-
-        $output = '';
-
-        $super_open = $super_close = '';
-        if ( $super_type != null ) {
-          $super_type = ucfirst( $super_type );
-          if ( true /* ( $super_type = get_valid_type( $super_type ) ) != null */ ) {
-            $super_open = '<span';
-            if ( $super_prop != null ) {
-              if ( true /* ( $super_prop = get_valid_prop( $super_prop, $super_super_type ) ) != null */ ) {
-                $super_open .= ' itemprop="' . $super_prop . '"';
-              }
-            }
-            $super_open .= ' itemscope';
-            $super_open .= ' itemtype="' . $super_type . '"';
-            $super_open .= '>';
-            $super_close = '</span>';
-          }
-        }
-
-        switch ( $build_mode ) {
-          case 'image':
-            break;
-          case 'link':
-            $text_prop = $url_prop = '';
-            foreach ( $fields as $key => $value ) {
-              if ( strpos( $value, 'http://' ) == 0 || strpos( $value, 'https://' ) == 0 ) {
-                $url_prop = $key;
-              } else {
-                $text_prop = $key;
-              }
-              if ( $text_prop != '' && $url_prop != '' ) {
-                break;
-              }
-            }
-            $text_itemprop = '';
-            if ( true /* ( $text_itemprop = get_valid_prop( $text_prop, $super_type ) ) != null */ ) {
-              $text_itemprop = ' itemprop="' . $text_itemprop . '"';
-            }
-            $output = '<span' . $text_itemprop . '>' . $fields[ $text_prop ] . '</span>';
-            if ( $url_prop != '') {
-              $url_itemprop = '';
-              if ( true /* ( $url_itemprop = get_valid_prop( $url_prop, $super_type ) ) != null */ ) {
-                $url_itemprop = ' itemprop="' . $url_itemprop . '"';
-              }
-              $output = '<a' . $url_itemprop . ' href="' . $fields[ $url_prop ] . '">' . $output . '</a>';
-            }
-            break;
-          case 'text':
-          default:
-            reset( $fields );
-            $prop = key( $fields );
-            $itemprop = '';
-            if ( true /* ( $itemprop = get_valid_prop( $prop, $super_type ) ) != null */ ) {
-              $itemprop = ' itemprop="' . $itemprop . '"';
-            }
-            $output = '<span' . $itemprop . '>' . $fields[ $prop ] . '</span>';
-        }
-
-        if( $super_open != '' )
-        {
-          $output = $super_open . $output . $super_close;
-        }
-
-        return $output;
       }
 
       /**

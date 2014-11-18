@@ -28,6 +28,7 @@ if( !is_dir( TEMPLATEPATH ) ) {
 include_once( untrailingslashit( TEMPLATEPATH ) . '/core-assets/class_ud.php' );
 include_once( untrailingslashit( STYLESHEETPATH ) . '/core-assets/ud_saas.php' );
 include_once( untrailingslashit( STYLESHEETPATH ) . '/core-assets/ud_functions.php' );
+include_once( untrailingslashit( STYLESHEETPATH ) . '/core-assets/microdata.php' );
 
 include_once( untrailingslashit( STYLESHEETPATH ) . '/entities/entity.php' );
 include_once( untrailingslashit( STYLESHEETPATH ) . '/entities/event.php' );
