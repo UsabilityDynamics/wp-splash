@@ -319,16 +319,32 @@ namespace DiscoDonniePresents {
 
         if ( count( $terms ) == 0 ) return false;
 
-        foreach ( $terms as $term ) {
-          $name = $term->name;
-          $url = get_term_link( $term->slug, $slug );
-          $fields = compact( 'name', 'url' );
-          $microdata_args = \DiscoDonniePresents\Microdata::prepare_args( $microdata_args, $fields, get_class( $this ), __FUNCTION__, array( 'super_type' => ucfirst( $slug ) ) );
+        // special case genre
+        if ( $slug == 'genre' ) {
+
+          $before = $after = '';
           if ( $microdata_args !== false ) {
-            $links[] = \DiscoDonniePresents\Microdata::handler( $microdata_args );
-          } else {
-            $links[] = '<a href="' . $url . '">' . $name . '</a>';
+            $before = '<span itemprop="genre">';
+            $after = '</span>';
           }
+          foreach ( $terms as $term ) {
+            $links[] = '<a href="' . get_term_link( $term->slug, $slug ) . '">' . $before . $term->name . $after . '</a>';
+          }
+
+        } else {
+          
+          foreach ( $terms as $term ) {
+            $name = $term->name;
+            $url = get_term_link( $term->slug, $slug );
+            $fields = compact( 'name', 'url' );
+            $microdata_args = \DiscoDonniePresents\Microdata::prepare_args( $microdata_args, $fields, get_class( $this ), __FUNCTION__, array( 'super_type' => ucfirst( $slug ) ) );
+            if ( $microdata_args !== false ) {
+              $links[] = \DiscoDonniePresents\Microdata::handler( $microdata_args );
+            } else {
+              $links[] = '<a href="' . $url . '">' . $name . '</a>';
+            }
+          }
+
         }
 
         return implode( $separator, $links );

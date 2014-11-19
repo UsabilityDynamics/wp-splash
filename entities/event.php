@@ -320,7 +320,7 @@ namespace DiscoDonniePresents {
       /**
        *
        */
-      public function genre() {
+      public function genre( $format = 'link', $separator = ', ', $microdata_args = false ) {
         $_genre = array();
 
         if ( empty( $this->_artists ) ) {
@@ -339,7 +339,11 @@ namespace DiscoDonniePresents {
           }
         }
 
-        return $this->termsToString( 'genre', $_genre, ', ' );
+        if ( $format != 'link' ) {
+          return $_genre;
+        }
+
+        return $this->termsToString( 'genre', $_genre, $separator, $microdata_args );
 
       }
 

@@ -245,9 +245,27 @@ if ( !function_exists( 'microdata_manual' ) ) {
     return $ret;
   }
 }
-if ( !function_exists( 'microdata_manual_meta' ) ) {
-  function microdata_manual_meta( $object, $fields = array(), $echo = false ) {
-    $ret = \DiscoDonniePresents\Microdata::manual_meta( $object, $fields );
+if ( !function_exists( 'microdata_type' ) ) {
+  function microdata_type( $object, $prop = '', $echo = false ) {
+    $ret = \DiscoDonniePresents\Microdata::type( $object, $prop );
+    if ( $echo ) {
+      echo $ret;
+    }
+    return $ret;
+  }
+}
+if ( !function_exists( 'microdata_link' ) ) {
+  function microdata_link( $objects, $wrap = false, $wrapper_property = '', $separator = ', ', $before = '', $after = '', $novalidate = false, $echo = false ) {
+    $ret = \DiscoDonniePresents\Microdata::link( $objects, $wrap, $wrapper_property, $separator, $before, $after, $novalidate );
+    if ( $echo ) {
+      echo $ret;
+    }
+    return $ret;
+  }
+}
+if ( !function_exists( 'microdata_meta' ) ) {
+  function microdata_meta( $object, $fields = array(), $echo = false ) {
+    $ret = \DiscoDonniePresents\Microdata::meta( $object, $fields );
     if ( $echo ) {
       echo $ret;
     }

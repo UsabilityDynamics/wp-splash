@@ -37,13 +37,98 @@ namespace DiscoDonniePresents {
       }
 
       /**
+       * Function to output itemtype (and optionally itemprop) for an object.
+       * Note: the output should be used INSIDE an HTML element as attributes.
+       * @param object $object an entity object to display the type for
+       * @param string $prop an optional itemprop to display along the itemtype
+       * @param boolean $novalidate if true, the type is not validated (optional, default is false)
+       * @return string the itemtype and itemprop, or nothing if type is invalid
+       */
+      public static function type( $object, $prop = '', $novalidate = false ) {
+        $class = get_class( $object );
+        $class = str_replace( self::$ENTITY_NAMESPACE . '\\', '', $class );
+        $type = self::get_mapped_type( $class );
+        $type = self::get_valid_type( $type, $novalidate );
+
+        if ( $type != null ) {
+          if ( !empty( $prop ) ) {
+            $prop = ' itemprop="' . $prop . '"';
+          }
+          return $prop . ' itemtype="' . $type . '"';
+        }
+        return '';
+      }
+
+      /**
+       * Function to output link and name for a group of entities
+       * @param mixed $objects either an entity object or an array of entity objects
+       * @param boolean $wrap the HTML element to wrap the link with (either div, p or span); if false, the link is not wrapped
+       * @param string $wrapper_property itemprop to use in the wrapping element
+       * @param string $separator how to separate the links
+       * @param string $before any output to place before the link, but inside the wrapper (works only if one object is passed)
+       * @param string $after any output to place after the link, but inside the wrapper (works only if one object is passed)
+       * @param boolean $novalidate if true, the type is not validated (optional, default is false)
+       * @return string the links for the entities with microdata applied
+       */
+      public static function link( $objects, $wrap = false, $wrapper_property = '', $separator = ', ', $before = '', $after = '', $novalidate = false ) {
+        $links = array();
+
+        if ( !is_array( $objects ) ) {
+          $objects = array( $objects );
+        }
+
+        // do not allow before and after if multiple links
+        if ( count( $objects ) > 1 ) {
+          $before = '';
+          $after = '';
+        }
+
+        if ( $wrap !== false ) {
+          $wrap = !in_array( $wrap, array( 'div', 'p', 'span' ) ) ? 'span' : $wrap;
+
+          if ( !empty( $wrapper_property ) ) {
+            $wrapper_property = ' itemprop="' . $wrapper_property . '"';
+          }
+        }
+
+        foreach ( $objects as $object ) {
+
+          if ( is_a( $object, self::$ENTITY_NAMESPACE . '\\Entity' ) ) {
+            $id = $object->post( 'ID' );
+
+            $output = $before . '<a href="' . get_permalink( $id ) . '" itemprop="url"><span itemprop="name">' . get_the_title( $id ) . '</span></a>' . $after;
+            
+            if ( $wrap ) {
+
+              $class = get_class( $object );
+              $class = str_replace( self::$ENTITY_NAMESPACE . '\\', '', $class );
+              $type = self::get_mapped_type( $class );
+              $type = self::get_valid_type( $type, $novalidate );
+              if ( $type != null ) {
+                $type = ' itemtype="' . $type . '"';
+              }
+
+              $output = '<' . $wrap . $wrapper_property . $type . '>' . $output . '</' . $wrap . '>';
+
+            }
+
+            $links[] = $output;
+
+          }
+
+        }
+
+        return implode( $separator, $links );
+      }
+
+      /**
        * Function to output microdata meta, invisible to the user, but visible for search engines.
        * This function should be used for properties which cannot actually be displayed anywhere on the page.
        * @param object $object an entity object to retrieve data from
        * @param array $fields the fields to include in the meta information
        * @return string HTML code for the meta information
        */
-      public static function manual_meta( $object, $fields = array() ) {
+      public static function meta( $object, $fields = array() ) {
         $output = '';
 
         if ( is_a( $object, self::$ENTITY_NAMESPACE . '\\Entity' ) ) {
@@ -53,6 +138,7 @@ namespace DiscoDonniePresents {
             'name'        => array( 'get_the_title', $id ),
             'url'         => array( 'get_permalink', $id ),
             'startDate'   => array( array( $object, 'meta' ), 'dateStart' ),
+            'endDate'   => array( array( $object, 'meta' ), 'dateEnd' ),
           );
 
           foreach ( $fields as $prop ) {
@@ -118,6 +204,8 @@ namespace DiscoDonniePresents {
 
         $output = '';
 
+        $original_super_type = $super_type;
+
         $super_open = $super_close = '';
         if ( $super_type != null ) {
           $super_type = ucfirst( $super_type );
@@ -139,6 +227,11 @@ namespace DiscoDonniePresents {
           $super_type = self::get_mapped_type( $origin_class );
         }
 
+        $disable_microdata = false;
+        if( $original_super_type != null && $original_type != $super_type ) {
+          $disable_microdata = true;
+        }
+
         switch ( $build_mode ) {
           case 'image':
             $prop = '';
@@ -149,7 +242,7 @@ namespace DiscoDonniePresents {
               }
             }
             $attr = array();
-            if ( ( $itemprop = self::get_valid_prop( $prop, $super_type, $novalidate ) ) != null ) {
+            if ( !$disable_microdata && ( $itemprop = self::get_valid_prop( $prop, $super_type, $novalidate ) ) != null ) {
               $attr['itemprop'] = $itemprop;
             }
             $output = wp_get_attachment_image( $fields[ $prop ], $image_size, false, $attr );
@@ -167,13 +260,13 @@ namespace DiscoDonniePresents {
               }
             }
             $text_itemprop = '';
-            if ( ( $text_itemprop = self::get_valid_prop( $text_prop, $super_type, $novalidate ) ) != null ) {
+            if ( !$disable_microdata && ( $text_itemprop = self::get_valid_prop( $text_prop, $super_type, $novalidate ) ) != null ) {
               $text_itemprop = ' itemprop="' . $text_itemprop . '"';
             }
             $output = '<span' . $text_itemprop . '>' . $fields[ $text_prop ] . '</span>';
             if ( $url_prop != '') {
               $url_itemprop = '';
-              if ( ( $url_itemprop = self::get_valid_prop( $url_prop, $super_type, $novalidate ) ) != null ) {
+              if ( !$disable_microdata && ( $url_itemprop = self::get_valid_prop( $url_prop, $super_type, $novalidate ) ) != null ) {
                 $url_itemprop = ' itemprop="' . $url_itemprop . '"';
               }
               $output = '<a' . $url_itemprop . ' href="' . $fields[ $url_prop ] . '">' . $output . '</a>';
@@ -184,7 +277,7 @@ namespace DiscoDonniePresents {
             reset( $fields );
             $prop = key( $fields );
             $itemprop = '';
-            if ( ( $itemprop = self::get_valid_prop( $prop, $super_type, $novalidate ) ) != null ) {
+            if ( !$disable_microdata && ( $itemprop = self::get_valid_prop( $prop, $super_type, $novalidate ) ) != null ) {
               $itemprop = ' itemprop="' . $itemprop . '"';
             }
             $output = '<span' . $itemprop . '>' . $fields[ $prop ] . '</span>';
@@ -385,7 +478,9 @@ namespace DiscoDonniePresents {
        */
       protected static function get_mapped_type( $origin_class ) {
         $mappings = array(
-          'Event'         => 'Event',
+          'Event'         => 'MusicEvent',
+          'Venue'         => 'MusicVenue',
+          'Artist'        => 'MusicGroup',
         );
 
         $origin_class = ucfirst( $origin_class );
