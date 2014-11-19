@@ -233,6 +233,45 @@ if( !function_exists( 'get_event' ) ) {
 }
 
 /**
+ * Helpful wrapper functions for microdata
+ * @author Felix Arntz
+ */
+if ( !function_exists( 'microdata_manual' ) ) {
+  function microdata_manual( $prop = '', $type = '', $echo = false ) {
+    $ret = \DiscoDonniePresents\Microdata::manual( $prop, $type );
+    if ( $echo ) {
+      echo $ret;
+    }
+    return $ret;
+  }
+}
+if ( !function_exists( 'microdata_manual_meta' ) ) {
+  function microdata_manual_meta( $object, $fields = array(), $echo = false ) {
+    $ret = \DiscoDonniePresents\Microdata::manual_meta( $object, $fields );
+    if ( $echo ) {
+      echo $ret;
+    }
+    return $ret;
+  }
+}
+if ( !function_exists( 'microdata_handler' ) ) {
+  function microdata_handler( $microdata_args, $echo = false ) {
+    $ret = \DiscoDonniePresents\Microdata::handler( $microdata_args );
+    if ( $echo ) {
+      echo $ret;
+    }
+    return $ret;
+  }
+}
+if ( !function_exists( 'microdata_prepare_args' ) ) {
+  function microdata_prepare_args( $args, $fields, $origin_class = '', $origin_function = '', $more_args = array() ) {
+    return \DiscoDonniePresents\Microdata::prepare_args( $args, $fields, $origin_class, $origin_function, $more_args );
+  }
+}
+// Microdata initialisation
+add_action( 'wp_loaded', array( '\\DiscoDonniePresents\\Microdata', 'init' ) );
+
+/**
  * Template function for the share button that will be in the breadcrumb bar
  *
  * @author williams@ud

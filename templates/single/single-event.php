@@ -4,13 +4,15 @@
 
 <?php $event = new \DiscoDonniePresents\Event( get_the_ID() ); the_post(); ?>
 
-<div class="<?php flawless_wrapper_class( 'tabbed-content' ); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" itemscope itemtype="http://schema.org/Event">
-
+<div class="<?php flawless_wrapper_class( 'tabbed-content' ); ?>" title="<?php echo esc_attr( get_the_title() ); ?>"<?php microdata_manual( '', 'MusicEvent', true ); ?>>
+  
+  <?php microdata_manual_meta( $event, array( 'url', 'startDate' ), true ); ?>
+  
   <div class="cfct-block sidebar-left span4 first">
     <div class="cfct-module" style="padding: 0; margin: 0;">
 
     <div class="visible-desktop dd_featured_image_wrap <?php echo $event->meta('posterImage') ? 'have_image' : 'no_image'; ?>">
-      <?php echo wp_get_attachment_image( $event->meta('posterImage'), $size = 'sidebar_poster' ); ?>
+      <?php echo $event->image( 'posterImage', 'sidebar_poster', true ); ?>
     </div>
 
     <ul class="dd_side_panel_nav">
@@ -80,7 +82,7 @@
               <a href="<?php echo get_permalink( $event->venue()->post( 'ID' ) ); ?>">
                 <?php echo $event->venue()->post( 'post_title' ); ?>
               </a><br />
-              <?php echo $event->venue()->taxonomies( 'city' ); ?>, <?php echo $event->venue()->taxonomies( 'state' ); ?>
+              <?php echo $event->venue()->taxonomies( 'city', 'link', ', ', array( 'super_prop' => 'contained_in' ) ); ?>, <?php echo $event->venue()->taxonomies( 'state', 'link', ', ', array( 'super_prop' => 'contained_in' ) ); ?>
             </span>
 
           </div>

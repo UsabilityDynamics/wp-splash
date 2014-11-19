@@ -120,22 +120,27 @@ namespace DiscoDonniePresents {
             return false;
           }
           $ret = maybe_unserialize( $this->_meta[ $key ][0] );
-          if( is_array( $microdata_args ) )
-          {
-            if( !is_array( $ret ) )
-            {
-              $special_args = array(
-                'fields'      => array(),
-                'origin'      => __FUNCTION__,
-              );
-              $special_args['fields'][ $key ] = $ret;
-              $ret = \DiscoDonniePresents\Microdata::handler( array_merge( $special_args, $microdata_args ) );
-            }
+          $fields = array();
+          $fields[ $key ] = $ret;
+          $microdata_args = \DiscoDonniePresents\Microdata::prepare_args( $microdata_args, $fields, get_class( $this ), __FUNCTION__ );
+          if ( $microdata_args !== false ) {
+            $ret = \DiscoDonniePresents\Microdata::handler( $microdata_args );
           }
           return $ret;
         }
 
         $this->_meta[ $key ] = array( $value );
+      }
+
+      public function image( $key = null, $size = 'thumbnail', $microdata_args = false ) {
+        $attachment_id = absint( $this->meta( $key ) );
+        $fields = array();
+        $fields[ $key ] = $attachment_id;
+        $microdata_args = \DiscoDonniePresents\Microdata::prepare_args( $microdata_args, $fields, get_class( $this ), __FUNCTION__, array( 'image_size' => $size ) );
+        if ( $microdata_args !== false ) {
+          return \DiscoDonniePresents\Microdata::handler( $microdata_args );
+        }
+        return wp_get_attachment_image( $attachment_id, $size );
       }
 
       /**
@@ -154,14 +159,11 @@ namespace DiscoDonniePresents {
       public function post( $field, $microdata_args = false ) {
         $ret = $this->_post->{$field};
 
-        if ( is_array( $microdata_args ) ) {
-          $special_args = array(
-            'fields'      => array(),
-            'origin'      => __FUNCTION__,
-          );
-          $special_args['fields'][ $field ] = $ret;
-
-          return \DiscoDonniePresents\Microdata::handler( array_merge( $special_args, $microdata_args ) );
+        $fields = array();
+        $fields[ $field ] = $ret;
+        $microdata_args = \DiscoDonniePresents\Microdata::prepare_args( $microdata_args, $fields, get_class( $this ), __FUNCTION__ );
+        if ( $microdata_args !== false ) {
+          $ret = \DiscoDonniePresents\Microdata::handler( $microdata_args );
         }
 
         return $ret;
@@ -318,18 +320,14 @@ namespace DiscoDonniePresents {
         if ( count( $terms ) == 0 ) return false;
 
         foreach ( $terms as $term ) {
-          if ( is_array( $microdata_args ) ) {
-            $special_args = array(
-              'fields'      => array(),
-              'origin'      => __FUNCTION__,
-              'super_type'  => $slug,
-            );
-            $special_args['fields']['name'] = $term->name;
-            $special_args['fields']['url'] = get_term_link( $term->slug, $slug );
-
-            $links[] = \DiscoDonniePresents\Microdata::handler( array_merge( $special_args, $microdata_args ) );
+          $name = $term->name;
+          $url = get_term_link( $term->slug, $slug );
+          $fields = compact( 'name', 'url' );
+          $microdata_args = \DiscoDonniePresents\Microdata::prepare_args( $microdata_args, $fields, get_class( $this ), __FUNCTION__, array( 'super_type' => ucfirst( $slug ) ) );
+          if ( $microdata_args !== false ) {
+            $links[] = \DiscoDonniePresents\Microdata::handler( $microdata_args );
           } else {
-            $links[] = '<a href="'.get_term_link( $term->slug, $slug ).'">'.$term->name.'</a>';
+            $links[] = '<a href="' . $url . '">' . $name . '</a>';
           }
         }
 
