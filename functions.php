@@ -58,6 +58,8 @@ add_action( 'flawless::init_lower', array( 'hddp', 'init_lower' ) );
 add_filter( 'elasticsearch_indexer_build_document', array( 'hddp', 'build_elastic_document' ), 10, 2 );
 add_action( 'flawless::setup_theme_features::after', array( 'hddp', 'carrington_build' ) );
 
+add_action( 'admin_menu', array( 'hddp', "es_menu" ), 11 );
+
 /**
  * fix for broken CSS
  */
@@ -303,6 +305,13 @@ class hddp extends Flawless_F {
 
     return $url;
 
+  }
+
+  /**
+   * Add custom menu item
+   */
+  static function es_menu( $wp_admin_bar ) {
+    add_submenu_page( 'elastic_search', 'Additional ElasticSearch Options', 'Advanced [DDP]', 'manage_options', 'es_options', array( __CLASS__, 'es_options_ui' ) );
   }
 
   /**
