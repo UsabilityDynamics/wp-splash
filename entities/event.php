@@ -390,30 +390,55 @@ namespace DiscoDonniePresents {
           );
         }
 
-        $city = $this->venue()->taxonomies('city', 'elasticsearch');
-        $state = $this->venue()->taxonomies('state', 'elasticsearch');
-        $country = $this->venue()->taxonomies('country', 'elasticsearch');
-        $type = $this->venue()->taxonomies('venue-type', 'elasticsearch');
-        $_object[ 'venue' ] = array(
-          'name' => htmlspecialchars_decode( $this->venue()->post( 'post_title' ) ),
-          'type' => $type[0],
-          'url' => get_permalink( $this->venue()->post( 'ID' ) ),
-          'address' => array(
-            'full' => $this->venue()->meta( 'locationAddress' ),
-            'city' => $city[0],
-            'state' => $state[0],
-            'country' => $country[0],
-            'geo' => array(
-              'lat' => (float)$this->venue()->meta('latitude'),
-              'lon' => (float)$this->venue()->meta('longitude')
+        if ( $this->venue() ) {
+          $city = $this->venue()->taxonomies('city', 'elasticsearch');
+          $state = $this->venue()->taxonomies('state', 'elasticsearch');
+          $country = $this->venue()->taxonomies('country', 'elasticsearch');
+          $type = $this->venue()->taxonomies('venue-type', 'elasticsearch');
+          $_object[ 'venue' ] = array(
+            'name' => htmlspecialchars_decode( $this->venue()->post( 'post_title' ) ),
+            'type' => $type[0],
+            'url' => get_permalink( $this->venue()->post( 'ID' ) ),
+            'address' => array(
+              'full' => $this->venue()->meta( 'locationAddress' ),
+              'city' => $city[0],
+              'state' => $state[0],
+              'country' => $country[0],
+              'geo' => array(
+                'lat' => (float)$this->venue()->meta('latitude'),
+                'lon' => (float)$this->venue()->meta('longitude')
+              )
             )
-          )
-        );
+          );
+        } else {
+          $_object[ 'venue' ] = array(
+            'name' => '',
+            'type' => '',
+            'url' => '',
+            'address' => array(
+              'full' => '',
+              'city' => '',
+              'state' => '',
+              'country' => '',
+              'geo' => array(
+                'lat' => 0.0,
+                'lon' => 0.0
+              )
+            )
+          );
+        }
 
-        $_object[ 'tour' ] = array(
-          'name' => htmlspecialchars_decode( $this->tour()->post('post_title') ),
-          'url' => get_permalink( $this->tour()->post('ID') )
-        );
+        if ( $this->tour() ) {
+          $_object[ 'tour' ] = array(
+            'name' => htmlspecialchars_decode( $this->tour()->post('post_title') ),
+            'url' => get_permalink( $this->tour()->post('ID') )
+          );
+        } else {
+          $_object[ 'tour' ] = array(
+            'name' => '',
+            'url' => ''
+          );
+        }
 
         return $_object;
 
