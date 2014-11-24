@@ -1,7 +1,19 @@
 <!-- Social Stream Module -->
-<div 
-  id="wp-social-stream-<?php echo rand(); ?>" 
-  class="wp-social-stream"
+<?php
+
+$stream_class = 'social-stream-module';
+$template_name = 'wp_social_stream_social_item_list';
+
+if( $data[ 'template' ] ){
+  if( in_array( $data[ 'template' ], array( 'home' ) ) ){
+    $stream_class .= '-' . $data[ 'template' ];
+    $template_name .= '_' . $data[ 'template' ];
+  }
+}
+?>
+<div
+  id="wp-social-stream-<?php echo rand(); ?>"
+  class="wp-social-stream <?php echo $stream_class; ?>"
   <?php // General options ?>
   data-requires="<?php echo $data[ 'requires' ]; ?>"
   data-path="<?php echo $data[ 'path' ] ?>"
@@ -11,9 +23,13 @@
   data-rotate_direction="<?php echo $data[ 'rotate_direction' ] ?>"
   data-height="<?php echo $data[ 'height' ] ?>"
   data-limit="<?php echo $data[ 'limit' ] ?>"
+  data-facebook_limit="<?php echo $data[ 'facebook_limit' ] ?>"
+  data-twitter_limit="<?php echo $data[ 'twitter_limit' ] ?>"
+  data-instagram_limit="<?php echo $data[ 'instagram_limit' ] ?>"
+  data-youtube_limit="<?php echo $data[ 'youtube_limit' ] ?>"
   data-moderate="<?php echo $data[ 'moderate' ] ?>"
   data-remove="<?php echo $data[ 'remove' ] ?>"
-  data-filter="false"
+  data-filter="<?php echo $data[ 'filter' ] ?>"
   data-controls="false"
   <?php // Twitter options ?>
   data-twitter_search_for="<?php echo $data[ 'twitter_search_for' ] ?>"
@@ -27,5 +43,8 @@
   data-youtube_search_for="<?php echo $data[ 'youtube_search_for' ] ?>"
   <?php // Facebook options ?>
   data-facebook_search_for="<?php echo $data[ 'facebook_search_for' ] ?>"
-  data-bind="template: { name: 'wp_social_stream_social_item_list', data: $data.results }"></div> 
-<!-- #Social Stream Module -->
+  data-title="<?php echo $data[ 'title' ] ?>"
+  data-description="<?php echo $data[ 'description' ] ?>"
+  data-order_function="<?php echo $data[ 'order_function' ] ?>"
+  data-bind="template: { name: '<?php echo $template_name; ?>', data: $data }"></div>
+</div>
