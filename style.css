@@ -675,6 +675,22 @@
     display: none;
   }
 
+  .password-protected {
+    padding: 15px 20px 30px;
+  }
+
+  .password-protected p {
+    margin-bottom: 30px;
+    padding-bottom: 0;
+    text-align: center;
+  }
+  .password-protected form input,
+  .password-protected form button {
+    display: block;
+    margin: 0 auto 30px;
+    text-align: center;
+  }
+
   /*====[Unorganized]=================================*/
   /* To avoid having a large gap between title and the carousel */
   div[class*="span"] > .cfct-module.cfct-module-carousel {

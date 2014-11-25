@@ -453,6 +453,26 @@ if( !function_exists( 'flawlessss_breadcrumbs' ) ) {
   }
 }
 
+function ddp_password_form() {
+  global $post;
+
+  $output = '<div class="password-protected">';
+  $output .= '<h1>Password Protected: ' . $post->post_title . '</h1>';
+  if ( $post->post_name == 'api' ) {
+    $output .= '<p>The API is password protected. To use it please enter your password below.</p>';
+  } else {
+    $output .= '<p>The content &quot;' . $post->post_title . '&quot; is password protected. To view it please enter your password below.</p>';
+  }
+  $output .= '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" method="post">';
+  $output .= '<input type="password" id="pwbox-' . ( empty( $post->ID ) ? rand() : $post->ID ) . '" name="post_password" placeholder="Post Password" size="20" maxlength="20">';
+  $output .= '<button type="submit" name="Submit" class="btn btn-blue">Submit</button>';
+  $output .= '</form>';
+  $output .= '</div>';
+
+  return $output;
+}
+add_filter( 'the_password_form', 'ddp_password_form' );
+
 /**
  * Helpful wrapper functions for microdata
  * @author Felix Arntz
