@@ -138,7 +138,8 @@ namespace DiscoDonniePresents {
             'name'        => array( 'get_the_title', $id ),
             'url'         => array( 'get_permalink', $id ),
             'startDate'   => array( array( $object, 'meta' ), 'dateStart' ),
-            'endDate'   => array( array( $object, 'meta' ), 'dateEnd' ),
+            'endDate'     => array( array( $object, 'meta' ), 'dateEnd' ),
+            'sameAs'      => array( array( $object, 'meta' ), 'officialLink' ),
           );
 
           foreach ( $fields as $prop ) {
@@ -199,6 +200,9 @@ namespace DiscoDonniePresents {
             $build_mode = 'link';
           } elseif ( in_array( $origin_function, array( 'image' ) ) ) {
             $build_mode = 'image';
+          } elseif ( isset( $fields['locationAddress'] ) ) {
+            $build_mode = 'address';
+            $super_type = 'PostalAddress';
           }
         }
 
@@ -233,6 +237,26 @@ namespace DiscoDonniePresents {
         }
 
         switch ( $build_mode ) {
+          case 'address':
+            $first_key = key( $fields );
+            $parts = explode( ', ', $fields[ $first_key ] );
+            foreach( $parts as $key => &$part ) {
+              if ( $key == 0 ) {
+                $part = '<span itemprop="streetAddress">' . $part . '</span>';
+              } elseif ( preg_match( '/^[A-Z]{2} [0-9]{5}$/', $part ) ) {
+                $p = explode( ' ', $part );
+                $p[0] = '<span itemprop="addressRegion">' . $p[0] . '</span>';
+                $p[1] = '<span itemprop="postalCode">' . $p[1] . '</span>';
+                $part = implode( ' ', $p );
+              } elseif ( $part == 'USA' ) {
+                $part = '<span itemprop="addressCountry" itemscope itemtype="' . self::get_valid_type( 'Country' ) . '"><span itemprop="name">' . $part . '</span></span>';
+              } elseif( preg_match( '/^[^0-9]*$/', $part ) )
+              {
+                $part = '<span itemprop="addressLocality">' . $part . '</span>';
+              }
+            }
+            $output = implode( ', ', $parts );
+            break;
           case 'image':
             $prop = '';
             foreach ( $fields as $key => $value ) {
@@ -447,8 +471,28 @@ namespace DiscoDonniePresents {
       protected static function get_mappings( $origin_class = '', $origin_function = '', $all_if_not_found = false ) {
         $mappings = array(
           'Event'           => array(
+            'post'            => array(
+              'post_title'      => 'name',
+            ),
             'image'           => array(
               'posterImage'     => 'image',
+            ),
+          ),
+          'Venue'           => array(
+            'post'            => array(
+              'post_title'      => 'name',
+            ),
+            'image'           => array(
+              'imageLogo'       => 'logo',
+            ),
+          ),
+          'Artist'          => array(
+            'post'            => array(
+              'post_title'      => 'name',
+            ),
+            'image'           => array(
+              'logo'            => 'logo',
+              'headshotImage'   => 'image',
             ),
           ),
         );

@@ -131,13 +131,13 @@ namespace DiscoDonniePresents {
         $_object[ 'url' ] = get_permalink( $this->_id );
         $_object[ 'description' ] = $this->post('post_excerpt');
         $_object[ 'source_url' ] = $this->meta( 'isBasedOnUrl' );
-        $_object[ 'photo' ] = $photo[0];
+        $_object[ 'photo' ] = is_array( $photo ) ? $photo[0] : '';
         $_object[ 'event_date' ] = date( 'c', strtotime( $this->event()->meta('dateStart') ) );
         $_object[ 'event_type' ] = $this->event()->taxonomies( 'event-type', 'elasticsearch' );
         $_object[ 'age_restriction' ] = $this->event()->taxonomies( 'age-limit', 'elasticsearch' );
         $_object[ 'image' ] = array(
-          'poster' => $poster[0],
-          'small'  => $small[0]
+          'poster' => is_array( $poster ) ? $poster[0] : '',
+          'small'  => is_array( $small ) ? $small[0] : ''
         );
 
         $_object[ 'artists' ] = array();

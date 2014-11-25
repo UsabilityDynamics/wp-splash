@@ -3580,3 +3580,7 @@ body.admin-bar div.general_header_wrapper {
 .autocompletion .search-autocomplete-list[data-state=loading] {
   display: none;
 }
+
+.meta {
+  display: none;
+}

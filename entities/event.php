@@ -365,10 +365,10 @@ namespace DiscoDonniePresents {
         $_object[ 'end_date' ] = date( 'c', strtotime( $this->meta('dateEnd') ) );
         $_object[ 'event_type' ] = $this->taxonomies( 'event-type', 'elasticsearch' );
         $_object[ 'age_restriction' ] = $this->taxonomies( 'age-limit', 'elasticsearch' );
-        $_object[ 'photo' ] = $photo[0];
+        $_object[ 'photo' ] = is_array( $photo ) ? $photo[0] : '';
         $_object[ 'tickets' ] = $this->meta('urlTicket');
         $_object[ 'image' ] = array(
-            'poster' => $poster[0]
+            'poster' => is_array( $poster ) ? $poster[0] : ''
         );
 
         $_object[ 'artists' ] = array();

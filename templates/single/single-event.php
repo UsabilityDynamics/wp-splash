@@ -10,10 +10,12 @@
   
   <div class="cfct-block sidebar-left span4 first">
     <div class="cfct-module" style="padding: 0; margin: 0;">
-
+    
+    <?php if ( $event->meta( 'posterImage' ) ) : ?>
     <div class="visible-desktop dd_featured_image_wrap <?php echo $event->meta('posterImage') ? 'have_image' : 'no_image'; ?>">
       <?php echo $event->image( 'posterImage', 'sidebar_poster', true ); ?>
     </div>
+    <?php endif; ?>
 
     <ul class="dd_side_panel_nav">
       <li class="visible-desktop link first ui-tabs-active"><a href="#section_event_details"><i class="icon-events icon-dd"></i> <?php _e('Event Details'); ?></a></li>
@@ -50,17 +52,18 @@
 
       <header class="entry-title-wrapper">
         <?php flawless_breadcrumbs(); ?>
-        <?php flawless_page_title(); ?>
+        <h1 class="entry-title"><?php echo $event->post('post_title', array() ); ?></h1>
         <p class="event_tagline"><?php echo $event->post('post_excerpt'); ?></p>
       </header>
 
       <hr class="dotted"/>
-
+      
+      <?php if ( $event->meta( 'posterImage' ) ) : ?>
       <div class="poster-iphone hidden-desktop">
-        <?php echo wp_get_attachment_image( $event->meta('posterImage'), $size = 'sidebar_poster' ); ?>
+        <?php echo $event->image( 'posterImage', 'sidebar_poster', true ); ?>
       </div>
-
       <hr class="dotted hidden-desktop"/>
+      <?php endif; ?>
 
       <div id="section_event_details" class="inner">
 
