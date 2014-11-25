@@ -8,10 +8,17 @@
   
   <div class="cfct-block sidebar-left span4 first">
     <div class="cfct-module" style="padding: 0; margin: 0;">
-
+    
+    <?php if ( $imageGallery->meta( 'primaryImageOfPage' ) ) : ?>
     <div class="visible-desktop dd_featured_image_wrap <?php echo $imageGallery->meta('primaryImageOfPage') ? 'have_image' : 'no_image'; ?>">
-      <?php echo wp_get_attachment_image( $imageGallery->meta('primaryImageOfPage'), $size = 'sidebar_poster' ); ?>
+      <?php
+      $img_src = wp_get_attachment_image_src( $imageGallery->meta( 'primaryImageOfPage' ), 'full' );
+      echo '<a href="' . $img_src[0] . '">';
+      echo wp_get_attachment_image( $imageGallery->meta('primaryImageOfPage'), $size = 'sidebar_poster' );
+      echo '</a>';
+      ?>
     </div>
+    <?php endif; ?>
 
     <ul class="dd_side_panel_nav">
       <li class="visible-desktop link first ui-tabs-active"><a href="#section_gallery_details"><i class="icon-gallery icon-dd"></i> <?php _e('Gallery'); ?></a></li>
@@ -52,10 +59,12 @@
       </header>
 
       <hr class="dotted"/>
-
+      
+      <?php if ( $imageGallery->meta( 'primaryImageOfPage' ) ) : ?>
       <div class="poster-iphone hidden-desktop">
         <?php echo wp_get_attachment_image( $imageGallery->meta('primaryImageOfPage'), $size = 'sidebar_poster' ); ?>
       </div>
+      <?php endif; ?>
 
       <hr class="dotted hidden-desktop"/>
 

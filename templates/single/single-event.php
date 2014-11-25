@@ -13,7 +13,12 @@
     
     <?php if ( $event->meta( 'posterImage' ) ) : ?>
     <div class="visible-desktop dd_featured_image_wrap <?php echo $event->meta('posterImage') ? 'have_image' : 'no_image'; ?>">
-      <?php echo $event->image( 'posterImage', 'sidebar_poster', true ); ?>
+      <?php
+      $img_src = wp_get_attachment_image_src( $event->meta( 'posterImage' ), 'full' );
+      echo '<a href="' . $img_src[0] . '">';
+      echo $event->image( 'posterImage', 'sidebar_poster', true );
+      echo '</a>';
+      ?>
     </div>
     <?php endif; ?>
 
