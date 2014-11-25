@@ -38,6 +38,10 @@ namespace DiscoDonniePresents {
       public function __construct($id = null, $preload = true) {
         parent::__construct($id);
 
+        if ( $this->event()->meta( 'posterImage' ) ) {
+          $this->meta( 'primaryImageOfPage', $this->event()->meta( 'posterImage' ) );
+        }
+
         if ( $preload ) {
           $this->_event = $this->load_event();
 

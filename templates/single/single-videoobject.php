@@ -4,7 +4,7 @@
 
 <?php $video = new \DiscoDonniePresents\VideoObject( get_the_ID(), false ); the_post(); ?>
 
-<div class="<?php flawless_wrapper_class( 'tabbed-content' ); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" itemscope itemtype="http://schema.org/Video">
+<div class="<?php flawless_wrapper_class( 'tabbed-content' ); ?>" title="<?php echo esc_attr( get_the_title() ); ?>">
 
   <div class="cfct-block sidebar-left span4 first">
     <div class="cfct-module" style="padding: 0; margin: 0;">
@@ -43,7 +43,7 @@
 
       <header class="entry-title-wrapper">
         <?php flawless_breadcrumbs(); ?>
-        <?php flawless_page_title(); ?>
+        <h1 class="entry-title"><?php echo $video->post('post_title'); ?></h1>
         <p class="event_tagline"><?php echo $video->post('post_excerpt'); ?>
           <span class="event_credit">
             <?php _e('Videos by'); ?> <a href="<?php echo get_permalink( $video->credit()->post('ID') ); ?>" target="_blank"><?php echo $video->credit()->post('post_title'); ?></a>
