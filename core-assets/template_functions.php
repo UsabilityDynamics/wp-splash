@@ -317,7 +317,7 @@ if( !function_exists( 'flawlessss_breadcrumbs' ) ) {
           $title = $post_type->labels->name;
         }
 
-        if ( in_array( get_post_type(), array( 'event', 'photo', 'video' ) ) ) {
+        if ( in_array( get_post_type(), array( 'event', 'imagegallery', 'videoobject' ) ) ) {
           $html[ 'content_type_home' ] = '<a href="' . $content_type_home . '">' . $title . '</a>';
         } else {
           $html[ 'content_type_home' ] = '<span>' . $title . '</span>';
