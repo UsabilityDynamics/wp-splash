@@ -70,9 +70,11 @@
 
             <span class="event_meta_label"><i class="hdp_event_time icon-dd"></i> <?php _e('Time'); ?></span>
             <span class="event_meta_value"><?php echo $video->event()->meta('eventTimeHuman'); ?></span>
-
+            
+            <?php if( $video->event->taxonomies( 'age-limit' ) != '' ) : ?>
             <span class="event_meta_label"><i class="hdp_age_limit icon-dd"></i> <?php _e('Age Limit'); ?></span>
             <span class="event_meta_value"><?php echo $video->event()->taxonomies( 'age-limit' ); ?></span>
+            <?php endif; ?>
 
             <span class="event_meta_label"><i class="hdp_venue icon-dd"></i> <?php _e('Venue'); ?></span>
             <span class="event_meta_value">
@@ -86,21 +88,34 @@
 
           <div class="span6">
 
+            <?php if ( $video->event->promoters() != '' ): ?>
+            <span class="event_meta_label"><i class="hdp_artist icon-dd"></i> <?php _e('Promoter'); ?></span>
+            <span class="event_meta_value"><?php echo $video->event->promoters(); ?></span>
+            <?php endif; ?>
+            
+            <?php if ( $video->event->taxonomies( 'event-type' ) != '' ): ?>
             <span class="event_meta_label"><i class="hdp_type icon-dd"></i> <?php _e('Type'); ?></span>
             <span class="event_meta_value"><?php echo $video->event()->taxonomies( 'event-type' ); ?></span>
-
+            <?php endif; ?>
+            
+            <?php if ( $video->event->genre() != '' ): ?>
             <span class="event_meta_label"><i class="hdp_genre icon-dd"></i> <?php _e('Genre'); ?></span>
             <span class="event_meta_value"><?php echo $video->event()->genre(); ?></span>
+            <?php endif; ?>
 
+            <?php if( $video->event->tour() ): ?>
             <span class="event_meta_label"><i class="hdp_tour icon-dd"></i> <?php _e('Tour'); ?></span>
             <span class="event_meta_value">
               <a href="<?php echo get_permalink( $video->event()->tour()->post( 'ID' ) ); ?>">
                 <?php echo $video->event()->tour()->post( 'post_title' ); ?>
               </a>
             </span>
-
+            <?php endif; ?>
+            
+            <?php if ( $video->event->artists() != '' ): ?>
             <span class="event_meta_label"><i class="hdp_artist icon-dd"></i> <?php _e('Artist'); ?></span>
             <span class="event_meta_value"><?php echo $video->event()->artists(); ?></span>
+            <?php endif; ?>
 
           </div>
 

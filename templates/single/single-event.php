@@ -88,7 +88,7 @@
 
           <div class="span6">
 
-            <?php if ( $event->promoters() ): ?>
+            <?php if ( $event->promoters() != '' ): ?>
             <span class="event_meta_label"><i class="hdp_artist icon-dd"></i> <?php _e('Promoter'); ?></span>
             <span class="event_meta_value"><?php echo $event->promoters(); ?></span>
             <?php endif; ?>
@@ -98,7 +98,7 @@
             <span class="event_meta_value"><?php echo $event->taxonomies( 'event-type', 'link', ', ', array() ); ?></span>
             <?php endif; ?>
 
-            <?php if ( $event->genre() ): ?>
+            <?php if ( $event->genre() != '' ): ?>
             <span class="event_meta_label"><i class="hdp_genre icon-dd"></i> <?php _e('Genre'); ?></span>
             <span class="event_meta_value"><span<?php microdata_manual( 'workPerformed', 'CreativeWork', true ); ?>><?php echo $event->genre( 'link', ', ', array() ); ?></span></span>
             <?php endif; ?>
@@ -112,7 +112,7 @@
             </span>
             <?php endif; ?>
 
-            <?php if ( $event->artists() ): ?>
+            <?php if ( $event->artists() != '' ): ?>
             <span class="event_meta_label"><i class="hdp_promoter icon-dd"></i> <?php _e('Artist'); ?></span>
             <span class="event_meta_value"><?php microdata_link( $event->artists( 'raw' ), 'span', 'performer', ', ', '', '', false, true ); ?></span>
             <?php endif; ?>
