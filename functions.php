@@ -447,6 +447,22 @@ class hddp extends Flawless_F {
    */
   static function init_lower() {
 
+    // enqueue theme style and dequeue unnecessary flawless styles
+    // (these are included in the new theme stylesheet)
+    add_action( 'wp_enqueue_scripts', function() {
+
+      wp_dequeue_style( 'twitter-bootstrap' );
+      wp_dequeue_style( 'flawless-style' );
+      wp_dequeue_style( 'flawless-colors' );
+      wp_dequeue_style( 'flawless-content' );
+      wp_dequeue_style( 'flawless-custom-content' );
+      wp_dequeue_style( 'flawless-child-style' );
+
+      wp_enqueue_style( 'wp-disco-style', get_stylesheet_directory_uri() . '/css/app.css', array() );
+      
+    }, 120 );
+
+    // enqueue additional scripts and styles
     add_action( 'wp_enqueue_scripts', function () {
 
       wp_enqueue_script( 'knockout' );
@@ -536,7 +552,6 @@ class hddp extends Flawless_F {
 
     add_filter( 'img_caption_shortcode', array( 'hddp', 'img_caption_shortcode' ), 10, 3 );
 
-    wp_enqueue_style( 'google-droing-sans', '//fonts.googleapis.com/css?family=Droid+Sans', array() );
     wp_enqueue_style( 'animate', get_stylesheet_directory_uri() . '/css/animate.css' );
 
     //** New Elastic Search Shortcodes */
