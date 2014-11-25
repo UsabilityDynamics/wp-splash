@@ -50,7 +50,7 @@ $side_meta[ ] = '<li class="permalink"><a href="' . get_permalink() . '"><i clas
 
         <?php get_template_part( 'entry-meta', 'header' ); ?>
 
-          <?php flawless_thumbnail( array( 'size' => 'hd_large' ) ); ?>
+          <?php flawless_thumbnail( array( 'size' => 'hd_large', 'link' => false ) ); ?>
 
           <header class="entry-title-wrapper page-title-wrapper">
           <?php flawless_breadcrumbs(); ?>

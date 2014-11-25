@@ -660,15 +660,15 @@
     font-weight: normal;
   }
 
-  /*====[Unsupported Elements]=================================*/
-  .post_listing_inner .entry-thumbnail {
+  .type-post .entry-thumbnail {
     margin-bottom: 15px;
     float: none;
     margin-right: 0;
   }
 
-  .post_listing_inner .entry-thumbnail img {
-    border: 1px solid #000;
+  .type-post .entry-thumbnail img {
+    width: 100%;
+    height: auto;
   }
 
   #wpstats {
