@@ -10,7 +10,7 @@
 * * *
 
 ### Stylesheet updating
-The wp-disco theme now uses the LESS preprocessor for its stylesheets. All style changes should be made in the `.less` file inside the `/css/src` directory. After modifying these files, regenerate the CSS file (it can be found at `/css/app.css`) by installing grunt and then executing `grunt less:development` or `grunt less:production` from the theme root directory.
+The wp-disco theme now uses the LESS preprocessor for its stylesheets. All style changes should be made in the `.less` files inside the `/css/src` directory. After modifying these files, regenerate the CSS file (it can be found at `/css/app.css`) by installing grunt and then executing `grunt less:development` or `grunt less:production` from the theme root directory.
 
 ### To Do
 * Add 404 page handler that uses a custom WP page with a specified page template.
