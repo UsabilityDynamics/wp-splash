@@ -1,0 +1,143 @@
+/*
+ * jQuery UI Styles
+ * --------------------------------------------
+ * Classes that are part of jQuery UI
+ * --------------------------------------------
+ */
+
+.ui-tabs-hide {
+  position: absolute;
+  left: -10000px;
+}
+
+.ui-datepicker {
+  background-color: #F2F2F2;
+  border: 1px solid #C4C4C4;
+  padding: 0.2em 0.2em 0;
+  width: 17em;
+  .ui-datepicker-header {
+    position:relative;
+    padding:.2em 0;
+  }
+
+  .ui-datepicker-prev,
+  .ui-datepicker-next {
+    position:absolute;
+    top: 2px;
+    width: 2em;
+    height: 1.8em;
+    span {
+      display: block;
+      position: absolute;
+      left: 0%;
+      margin-left: 3px;
+      top: 50%;
+      margin-top: -8px;
+      text-indent: 0;
+    }
+  }
+  .ui-datepicker-prev-hover,
+  .ui-datepicker-next-hover {
+    top: 1px;
+  }
+  .ui-datepicker-prev {
+    left: 2px;
+  }
+  .ui-datepicker-next {
+    right: 2px;
+  }
+  .ui-datepicker-prev-hover {
+    left: 1px;
+  }
+  .ui-datepicker-next-hover {
+    right: 1px;
+  }
+
+  .ui-datepicker-title {
+    margin: 0 2.3em;
+    line-height: 1.8em;
+    text-align: center;
+    select {
+      font-size:1em;
+      margin:1px 0;
+    }
+  }
+
+  select {
+    &.ui-datepicker-month-year {
+      width: 100%;
+    }
+    &.ui-datepicker-month,
+    &.ui-datepicker-year {
+      width: 49%;
+    }
+  }
+
+  .ui-datepicker-today {
+    a {
+      background: none repeat scroll 0 0 #7D7D7D;
+      color:#E0E0E0;
+    }
+  }
+
+  .ui-datepicker-current-day {
+    a {
+      background: orange;
+      color: white;
+    }
+  }
+
+  table {
+    width: 100%;
+    font-size: .9em;
+    border-collapse: collapse;
+    margin:0 0 .4em;
+    th {
+      padding: .7em .3em;
+      text-align: center;
+      font-weight: bold;
+      border: 0;
+    }
+    td {
+      border: 0;
+      padding: 1px;
+      span,
+      a {
+        background:none repeat scroll 0 0 #DEDEDE;
+        color:#655858;
+        display:block;
+        padding:0.2em;
+        text-align:center;
+        text-decoration:none;
+      }
+    }
+  }
+
+  .ui-datepicker-buttonpane {
+    background-image: none;
+    margin: .7em 0 0 0;
+    padding:0 .2em;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    button {
+      float: right;
+      margin: .5em .2em .4em;
+      cursor: pointer;
+      padding: .2em .6em .3em .6em;
+      width:auto;
+      overflow:visible;
+      &.ui-datepicker-current {
+        float: left;
+      }
+    }
+  }
+}
+
+@media ( max-width: 979px ) {
+
+  .ui-tabs-hide {
+    position: static;
+  }
+
+}

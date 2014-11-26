@@ -1,0 +1,89 @@
+/*
+ * Elasticsearch
+ * --------------------------------------------
+ * Classes that are used for dynamic filter
+ * --------------------------------------------
+ */
+
+.dynamic_filter {
+  .result_row {
+    background: none repeat scroll 0 0 #FFFFFF;
+    margin-bottom: 5px;
+    padding: 6px 10px;
+    &:hover {
+      background-color: #FCFCFC;
+    }
+  }
+  ul.result_data {
+    margin-bottom: 0;
+    li.topic_title {
+      float: left;
+      font-size: 1.2em;
+      width: 440px;
+      color: #939393;
+    }
+
+    li.topic_last_poster_name {
+      float: right;
+      width: 200px;
+    }
+  }
+}
+
+.item-body,
+.item-header {
+  background-color: #FFF;
+  padding: 15px;
+}
+
+.item-body {
+  border: 1px solid #DDDDDD;
+  border-radius: 0 5px 5px 5px;
+  min-height: 10em;
+  .primary-item {
+    border-bottom: 1px solid #DADADA;
+    margin: -15px -20px 15px -15px;
+    padding: 15px;
+    form {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.item-header {
+  border: 1px solid #DDDDDD;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  .item-header-avatar {
+    border-radius: 5px;
+    overflow: hidden;
+    margin-right: 15px;
+    img.avatar {
+      display: block;
+    }
+  }
+  .header-title {
+    margin-bottom: 0;
+    a {
+      color: #333333;
+    }
+  }
+  .header-note {
+    color: #999999;
+  }
+  .user-nicename {
+    display: block;
+    margin-bottom: 15px;
+  }
+  .item-meta {
+    padding-left: 15px;
+    width: 200px;
+  }
+  span.group_type,
+  span.activity {
+    color: #999999;
+    background: transparent;
+    padding: 0;
+    font-weight: normal;
+  }
+}

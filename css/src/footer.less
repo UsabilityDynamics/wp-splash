@@ -1,0 +1,57 @@
+/*
+ * Footer
+ * --------------------------------------------
+ * Styles for the theme footer
+ * --------------------------------------------
+ */
+
+div.footer {
+  display: block;
+  background-color: #1B8ACA;
+  .flawless_footer_copyright {
+    text-align: center;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+  }
+}
+
+div.menu-footer-container ul li,
+div.bottom-of-page-container ul li {
+  &.top_level_item {
+    float: left;
+    margin: 0 10px;
+  }
+  a {
+    color: white;
+  }
+}
+
+div.menu-footer-container {
+  ul li.top_level_item {
+    > a {
+      text-transform: uppercase;
+      font-weight:bold;
+      font-size: 14px;
+      line-height: 1.7em;
+    }
+    ul.sub-menu a {
+      font-size: 14px;
+      &:hover {
+        color: #005580;
+      }
+    }
+  }
+}
+
+div.bottom-of-page-container {
+  ul.sub-menu {
+    display: none;
+  }
+  ul li.top_level_item {
+    font-weight: bold;
+    a:hover {
+      color: #005580;
+    }
+  }
+}

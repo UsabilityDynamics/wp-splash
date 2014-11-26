@@ -1,0 +1,22 @@
+.alignleft() {
+  .alignleftright(left);
+}
+
+.alignright() {
+  .alignleftright(right);
+}
+
+.aligncenter() {
+  clear: both;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.alignleftright(@where: left) {
+  display: inline;
+  float: @where;
+  margin-right: 1.1em;
+}
+
+//TODO: put some more useful mixins in here

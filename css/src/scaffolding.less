@@ -1,0 +1,196 @@
+/*
+ * Scaffolding
+ * --------------------------------------------
+ * Project scaffolding and reset
+ * --------------------------------------------
+ */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: @ddp-font-family;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #d0d0d0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #fffefe;
+  text-shadow: 1px 1px 2px #151515;
+  margin-bottom: 0.5em;
+  line-height: 1.3em;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+h2 {
+  font-size:20px;
+}
+
+h3 {
+  font-size: 17px;
+}
+
+h4 {
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: inherit;
+  text-transform: inherit;
+  font-size: 13px;
+}
+
+p {
+  font-family: @ddp-font-family;
+  line-height: 1.5em;
+  strong {
+    font-weight: bold;
+  }
+}
+
+a {
+  color: #14829d;
+  &:hover {
+    color: #58b8cf;
+    text-decoration: none;
+  }
+}
+
+blockquote {
+  border-left: 4px solid #0f8dcf;
+}
+
+hr {
+  clear: both;
+  border-bottom-style: dotted;
+  border-color: rgba(252, 252, 252, 0.1);
+  border-top-style: none;
+}
+
+pre {
+  clear: both;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 1em;
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    font-weight: bold;
+  }
+  thead th {
+    vertical-align: bottom;
+  }
+}
+
+.screen-reader-text {
+  display: none;
+}
+
+.btn > a {
+  color: inherit;
+}
+
+@media ( max-width: 979px ) {
+
+  .not-for-iphone {
+    display: none !important;
+  }
+
+  body {
+    padding-top: 0;
+  }
+
+}
+
+@media ( min-width: 980px ) {
+
+  .mobile-only {
+    display: none;
+  }
+
+}
+
+@media screen {
+
+  ul {
+    margin: 0;
+    list-style-type: none;
+  }
+
+  .print-only {
+    display: none;
+  }
+
+}
+
+@media print {
+
+  body {
+    background:white;
+    color:black;
+    margin:0;
+    padding: 0;
+  }
+
+  .no-print {
+    display: none;
+  }
+
+  a,
+  a:visited {
+    text-decoration: none;
+  }
+
+  footer {
+    clear: both;
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3; }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+}
