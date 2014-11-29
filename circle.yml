@@ -7,9 +7,9 @@ machine:
     version: 5.6.2
   services:
     - docker
-    - mysql
     - memcached
-    - elasticsearch
+    # - mysql
+    # - elasticsearch
 
   hosts:
     edm.wpcloud.io: 127.0.0.1
@@ -68,9 +68,7 @@ dependencies:
     - mkdir -p /home/ubuntu/storage
     - mkdir -p /home/ubuntu/docker
     - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
-    # - docker pull hipstack/hipstack:latest
-    # - if [[ -e ~/docker/wpcloud.site.tar ]]; then docker load -i ~/docker/wpcloud.site.tar; fi
-    # - docker pull wpcloud/site
+    - sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
     # - mysql -e "CREATE DATABASE edm_develop;";
     # - mysql -e "CREATE DATABASE edm_staging;";
     # - mysql -e "CREATE DATABASE edm_production;";
@@ -81,13 +79,16 @@ dependencies:
     # - git config --global push.default simple
     # - git config --global user.email ${GITHUB_EMAIL}
     # - git config --global user.name ${GITHUB_USERNAME}
-    - sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
+
+  override:
+    # - docker pull hipstack/hipstack:latest
+    # - if [[ -e ~/docker/wpcloud.site.tar ]]; then docker load -i ~/docker/wpcloud.site.tar; fi
+    - docker pull hipstack/hipstack:latest
+    - docker pull wpcloud/site:latest
     - sudo service apache2 start
 
 test:
   pre:
-    - docker pull hipstack/hipstack:latest
-    - docker pull wpcloud/sites:latest
     - make image
 
   override:
