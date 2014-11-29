@@ -18,18 +18,19 @@ CURRENT_BRANCH                ?=$(shell git describe --contains --all HEAD)
 CURRENT_COMMIT                ?=$(shell git rev-list -1 HEAD)
 CURRENT_TAG                   ?=$(shell git describe --always --tag)
 ACCOUNT_NAME		              ?=edm
+BUILD_VERSION		              ?=2.3.0
 STORAGE_DIR		                ?=/var/lib/storage/
-CONTAINER_HOSTNAME		        ?=discodonniepresents.com
+CONTAINER_HOSTNAME		        ?=www.discodonniepresents.com
+CONTAINER_NAME		            ?=www.discodonniepresents.com
 STORAGE_BUCKET		            ?=gs://discodonniepresents.com
+HOST_PWD                      ?=/opt/sources/DiscoDonniePresents/www.discodonniepresents.com
 SITE_LIST		                  ?=$(shell wp --allow-root site list --field=url --format=csv)
 PWD                           := $(shell pwd)
-_GET_SITES                    =$(call wp,sites,list)
 
 ##
 ##
 ##
 default:
-	@make install
 	@make image
 	@make run
 
@@ -238,37 +239,47 @@ install:
 	@echo "Installing ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CURRENT_TAG}."
 	@npm install --silent
 
-
 ##
 ##
 ##
 image:
-	@docker build --rm --quiet=true -t $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest .
+	@echo "Build Docker Image ${CONTAINER_NAME}."
+	@docker build --rm=true --quiet=true -t $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest .
 
 ##
 ## sudo chown -R core:core /home/core/.dev/wpcloud/wordpress
 ##
 run:
-	@echo "Running ${CONTAINER_NAME}."
+	@echo "Running ${CONTAINER_NAME}. Mounting ${HOST_PWD} to /var/www."
 	@echo "Checking and dumping previous runtime [$(shell docker rm -f ${CONTAINER_NAME} 2>/dev/null; true)]."
-	@sudo docker run -itd \
+	@docker run -itd \
 		--name=${CONTAINER_NAME} \
-		--hostname=${CONTAINER_HOSTNAME}.dev \
+		--hostname=${CONTAINER_HOSTNAME} \
 		--publish=80 \
-		--env=NODE_ENV=develop} \
 		--env=WP_ENV=develop \
-		--volume={PWD}:/var/www \
+		--volume=${HOST_PWD}:/var/www:rw \
 		$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest
 	@docker logs ${CONTAINER_NAME}
+	@echo "Container started. Use 'make check' to test."
 
 ##
 ##
 ##
 release:
 	@echo "Releasing ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${BUILD_VERSION}."
+	@make image
 	@docker tag $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
 	@docker push $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
 	@docker rmi $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
+	@make remove
+
+##
+##
+##
+remove:
+	@echo "Stopping development instances ${BUILD_ORGANIZATION}/${BUILD_REPOSITORY}."
+	@docker stop ${CONTAINER_NAME} 2>/dev/null; true
+	@docker rm -f ${CONTAINER_NAME} 2>/dev/null; true
 
 ##
 ## pass commands to Grunt
