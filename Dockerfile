@@ -9,6 +9,8 @@
 
 FROM          wpcloud/site
 
+RUN           rm -rf /var/www/**
+
 ADD           /wp-admin       /var/www/wp-admin
 ADD           /wp-content     /var/www/wp-content
 ADD           /wp-includes    /var/www/wp-includes
