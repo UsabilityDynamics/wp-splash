@@ -313,6 +313,7 @@ if ( defined( 'WP_CLI' ) && class_exists( 'WP_CLI_Command' ) && ! class_exists( 
 			WP_CLI::line( $_result->ok );
 
 		}
+
 		/**
 		 * Disables GCS sync
 		 *
@@ -437,6 +438,7 @@ if ( defined( 'WP_CLI' ) && class_exists( 'WP_CLI_Command' ) && ! class_exists( 
 			/** We are done */
 			WP_CLI::line( "Done processing." );
 		}
+
 	}
 
 	/** Add the new commands */

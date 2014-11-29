@@ -12,32 +12,37 @@
 ##
 ################################################################################################
 
-CIRCLE_PROJECT_USERNAME	      ?=DiscoDonniePresents
+CIRCLE_PROJECT_USERNAME	      ?=discodonniepresents
 CIRCLE_PROJECT_REPONAME	      ?=www.discodonniepresents.com
 CURRENT_BRANCH                ?=$(shell git describe --contains --all HEAD)
 CURRENT_COMMIT                ?=$(shell git rev-list -1 HEAD)
 CURRENT_TAG                   ?=$(shell git describe --always --tag)
 ACCOUNT_NAME		              ?=edm
-STORAGE_DIR		                ?=/var/storage/
+STORAGE_DIR		                ?=/var/lib/storage/
+CONTAINER_HOSTNAME		        ?=discodonniepresents.com
 STORAGE_BUCKET		            ?=gs://discodonniepresents.com
-RDS_BUCKET		                ?=s3://rds.uds.io/DiscoDonniePresents/www.discodonniepresents.com
 SITE_LIST		                  ?=$(shell wp --allow-root site list --field=url --format=csv)
 PWD                           := $(shell pwd)
 _GET_SITES                    =$(call wp,sites,list)
 
-#
-#
-default: install
+##
+##
+##
+default:
+	@make install
+	@make image
+	@make run
 
-# Install direnv (https://github.com/zimbatm/direnv) to use this file
-# - Run "direnv allow" to enable.
-#
+## Install direnv (https://github.com/zimbatm/direnv) to use this file
+## - Run "direnv allow" to enable.
+##
 setEnvironment:
 	@touch ./.envrc
 	@echo "Enabled environment variables in .envrc."
 
-# Pull all Subtrees
-#
+## Pull all Subtrees
+##
+##
 subtreePull:
 	@git subtree pull --prefix=wp-content/static/wiki git@github.com:DiscoDonniePresents/www.discodonniepresents.com.wiki master --squash
 	@git subtree pull --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
@@ -67,8 +72,9 @@ subtreePull:
 	@git subtree pull --prefix=wp-content/static/mocks git@github.com:DiscoDonniePresents/mocks.git master --squash
 	@echo "Pulled all common subtrees."
 
-# Pull all Subtrees
-#
+## Pull all Subtrees
+##
+##
 subtreePush:
 	@git subtree push --prefix=wp-content/static/wiki git@github.com:DiscoDonniePresents/www.discodonniepresents.com.wiki master --squash
 	@git subtree push --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
@@ -98,9 +104,9 @@ subtreePush:
 	@git subtree push --prefix=wp-content/static/mocks git@github.com:DiscoDonniePresents/mocks.git master --squash
 	@echo "Pulled all common subtrees."
 
-# Create MySQL Snapshot
-#
-#
+## Create MySQL Snapshot
+##
+##
 clean:
 	@rm -rf composer.lock
 	@rm -rf wp-vendor/composer
@@ -109,10 +115,12 @@ clean:
 
 ##
 ##
+##
 update:
-	composer update --no-dev --prefer-dist
+	@composer update --no-dev --prefer-dist
 	@echo "Updated Composer dependencies."
 
+##
 ##
 ##
 flushTransient:
@@ -121,6 +129,7 @@ flushTransient:
 	@wp --allow-root db query 'DELETE FROM edm_sitemeta WHERE meta_key LIKE "%_site_transient%"'
 
 ## Generate MySQL Snapshot
+##
 ##
 snapshot:
 	@make env
@@ -133,6 +142,7 @@ snapshot:
 
 ## Create MySQL Snapshot
 ##
+##
 snapshotImport:
 	@echo "Downloading MySQL snapshot for <${CURRENT_BRANCH}> branch from from gs://discodonniepresents.com/${ACCOUNT_NAME}_${CURRENT_BRANCH}.sql.gz to ~/tmp/${ACCOUNT_NAME}_${CURRENT_BRANCH}.sql."
 	@rm -rf ~/tmp/${ACCOUNT_NAME}_${CURRENT_BRANCH}.sql.gz
@@ -144,8 +154,9 @@ snapshotImport:
 	@wp transient delete-all
 	@echo "MySQL snapshot downloaded from gs://discodonniepresents.com/${ACCOUNT_NAME}_${CURRENT_BRANCH}.sql.gz and imported."
 
-# - Import MySQL Snapshot
-#
+## - Import MySQL Snapshot
+##
+##
 develop:
 	@echo "Installing ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CURRENT_TAG} for development."
 	@npm install --silent
@@ -159,45 +170,32 @@ develop:
 	@wp transient delete-all
 	@wp cache flush
 
-#
-#
-#
+##
+##
+##
 production:
 	@echo "Installing ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CURRENT_TAG} for development."
 	@wp option update git:branch ${CURRENT_BRANCH}
 	@wp option update git:organization ${CIRCLE_PROJECT_USERNAME}
 	@wp option update git:repository ${CIRCLE_PROJECT_REPONAME}
 
-#
-#
-#
+##
+##
+##
 storageSync:
 	@echo "Pushing storage files from <${STORAGE_DIR}> to <${STORAGE_BUCKET}> bucket."
 	$(echo $(wp --allow-root site list --field=url --format=csv) | while read line; do echo "Site: ${item}"; done)
 
-# Prepare for Git Push and push
-#
-#
-release:
-	@echo "Running application install ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CURRENT_TAG}."
-	@rm -rf composer.lock
-	@rm -rf wp-vendor/composer/installed.json
-	@rm -rf wp-vendor/composer/installers
-	@rm -rf wp-vendor/composer/installers/.gitignore
-	@rm -rf wp-vendor/**/.git
-	@composer update --optimize-autoloader --no-dev --prefer-dist --no-interaction
-	@git add . --all && git commit -m '[ci skip]' && git push
-
-# Prepare for Git Push and push
-#
-#
+## Prepare for Git Push and push
+##
+##
 snapshotRelease:
-	make snapshot
-	make release
+	@make snapshot
+	@make release
 
-# Dangerous command. Will dump any local changes.
-#
-#
+## Dangerous command. Will dump any local changes.
+##
+##
 reset:
 	@echo "Resetting current branch <${CURRENT_BRANCH}> to origin."
 	@git fetch --force --quiet origin
@@ -205,23 +203,23 @@ reset:
 	@git reset --hard origin/${CURRENT_BRANCH}
 	@git pull --force --quiet
 
-#
-#
-#
+##
+##
+##
 merge:
 	@echo "Merging current <${CURRENT_BRANCH}> branch with origin/production."
 	@git fetch origin
 	@git merge --no-ff origin/production -m "Merging with production"
 
-# Actions to be performed after git pull
-#
-#
+## Actions to be performed after git pull
+##
+##
 post-pull:
 	@make varnishPurge
 
-# Purge Varnish.
-#
-#
+## Purge Varnish.
+##
+##
 varnishPurge:
 	@echo "Performing post-pull action."
 	@curl -X PURGE discodonniepresents.com
@@ -239,11 +237,42 @@ varnishPurge:
 install:
 	@echo "Installing ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CURRENT_TAG}."
 	@npm install --silent
-	@rm -rf wp-vendor/composer/installed.json wp-vendor/composer/installers
-	@composer update --prefer-source --dev --no-interaction --no-progress
 
-# pass commands to Grunt
-#
+
+##
+##
+##
+image:
+	@docker build --rm --quiet=true -t $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest .
+
+##
+## sudo chown -R core:core /home/core/.dev/wpcloud/wordpress
+##
+run:
+	@echo "Running ${CONTAINER_NAME}."
+	@echo "Checking and dumping previous runtime [$(shell docker rm -f ${CONTAINER_NAME} 2>/dev/null; true)]."
+	@sudo docker run -itd \
+		--name=${CONTAINER_NAME} \
+		--hostname=${CONTAINER_HOSTNAME}.dev \
+		--publish=80 \
+		--env=NODE_ENV=develop} \
+		--env=WP_ENV=develop \
+		--volume={PWD}:/var/www \
+		$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest
+	@docker logs ${CONTAINER_NAME}
+
+##
+##
+##
+release:
+	@echo "Releasing ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${BUILD_VERSION}."
+	@docker tag $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
+	@docker push $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
+	@docker rmi $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
+
+##
+## pass commands to Grunt
+##
 %:
 	@npm install
 	@grunt $@
