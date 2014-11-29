@@ -244,7 +244,7 @@ install:
 ##
 image:
 	@echo "Build Docker Image ${CONTAINER_NAME}."
-	@docker build --rm=true --quiet=true -t $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest .
+	@docker build --rm=true --quiet=true -t discodonniepresents/$(CIRCLE_PROJECT_REPONAME):latest .
 
 ##
 ## sudo chown -R core:core /home/core/.dev/wpcloud/wordpress
@@ -257,7 +257,7 @@ run:
 		--hostname=${CONTAINER_HOSTNAME} \
 		--publish=80 \
 		--env=WP_ENV=develop \
-		$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest
+		discodonniepresents/$(CIRCLE_PROJECT_REPONAME):latest
 	@docker logs ${CONTAINER_NAME}
 	@echo "Container started. Use 'make check' to test."
 
@@ -267,9 +267,9 @@ run:
 release:
 	@echo "Releasing ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${BUILD_VERSION}."
 	@make image
-	@docker tag $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
-	@docker push $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
-	@docker rmi $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
+	@docker tag discodonniepresents/$(CIRCLE_PROJECT_REPONAME):latest discodonniepresents/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
+	@docker push discodonniepresents/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
+	@docker rmi discodonniepresents/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
 	@make remove
 
 ##
