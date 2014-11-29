@@ -68,9 +68,9 @@ dependencies:
     - mkdir -p /home/ubuntu/storage
     - mkdir -p /home/ubuntu/docker
     - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
-    - docker pull hipstack/hipstack:latest
-    - if [[ -e ~/docker/wpcloud.site.tar ]]; then docker load -i ~/docker/wpcloud.site.tar; fi
-    - docker pull wpcloud/site
+    # - docker pull hipstack/hipstack:latest
+    # - if [[ -e ~/docker/wpcloud.site.tar ]]; then docker load -i ~/docker/wpcloud.site.tar; fi
+    # - docker pull wpcloud/site
     # - mysql -e "CREATE DATABASE edm_develop;";
     # - mysql -e "CREATE DATABASE edm_staging;";
     # - mysql -e "CREATE DATABASE edm_production;";
@@ -86,7 +86,7 @@ dependencies:
 
 test:
   pre:
-    - make image
+    # - make image
 
   override:
     - mocha wp-content/static/test/unit
@@ -96,5 +96,5 @@ test:
     - mocha wp-content/static/test/functional/sharding
 
   post:
-    - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
+    # - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
 
