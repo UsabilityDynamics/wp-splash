@@ -90,10 +90,10 @@ dependencies:
 
 test:
   pre:
-    - make image
+    - cd ~/www.discodonniepresents.com && make image
 
   override:
-    - mocha --timeout 60000 --reporter list --ui exports --require should wp-content/static/tests/unit
+    - cd ~/www.discodonniepresents.com && mocha --timeout 60000 --reporter list --ui exports --require should wp-content/static/tests/unit
 
 deployment:
 
