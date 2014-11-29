@@ -7,6 +7,7 @@ machine:
     version: 5.6.2
   services:
     - mysql
+    - elasticsearch
 
   hosts:
     edm.wpcloud.io: 127.0.0.1
@@ -42,30 +43,29 @@ machine:
     NODE_ENV: ${CIRCLE_BRANCH}
     PHP_ENV: ${CIRCLE_BRANCH}
     WP_ENV: ${CIRCLE_BRANCH}
-    WP_HOME: http://www.discodonniepresents.com
-    WP_SITEURL: http://www.discodonniepresents.com
+    # WP_HOME: http://www.discodonniepresents.com
+    # WP_SITEURL: http://www.discodonniepresents.com
     WP_CORE_DIR: ~/{CIRCLE_PROJECT_REPONAME}
-    WP_DB_NAME: edm_${CIRCLE_BRANCH}
-    WP_DB_HOST: localhost
-    WP_DB_USER: circle
-    WP_DB_PASSWORD: circle
-    CURRENT_BRANCH: ${CIRCLE_BRANCH}
+    # WP_DB_NAME: edm_${CIRCLE_BRANCH}
+    # WP_DB_HOST: localhost
+    # WP_DB_USER: circle
+    # WP_DB_PASSWORD: circle
+    # CURRENT_BRANCH: ${CIRCLE_BRANCH}
     WP_DEBUG: true
     WP_DEBUG_DISPLAY: 0
 
 dependencies:
   pre:
     - sudo  apt-get install -y s3cmd
-    - wget  -O ~/.s3cfg https://gist.githubusercontent.com/andypotanin/8e1e6b63117a9eb172b6/raw/51af571f391f6866c4c6b3d08d6e7fc466d26609/.s3cfg
     - curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp
-    - mkdir -p /home/ubuntu/storage/uploads
-    - mysql -e "CREATE DATABASE edm_develop;";
-    - mysql -e "CREATE DATABASE edm_staging;";
-    - mysql -e "CREATE DATABASE edm_production;";
-    - mysql -e "grant usage on *.* to circle@localhost identified by 'circle';";
-    - mysql -e "grant all privileges on edm_develop.* to circle@localhost;";
-    - mysql -e "grant all privileges on edm_staging.* to circle@localhost;";
-    - mysql -e "grant all privileges on edm_corporate.* to circle@localhost;";
+    - mkdir -p /home/ubuntu/storage
+    # - mysql -e "CREATE DATABASE edm_develop;";
+    # - mysql -e "CREATE DATABASE edm_staging;";
+    # - mysql -e "CREATE DATABASE edm_production;";
+    # - mysql -e "grant usage on *.* to circle@localhost identified by 'circle';";
+    # - mysql -e "grant all privileges on edm_develop.* to circle@localhost;";
+    # - mysql -e "grant all privileges on edm_staging.* to circle@localhost;";
+    # - mysql -e "grant all privileges on edm_corporate.* to circle@localhost;";
     - git config --global push.default simple
     - git config --global user.email ${GITHUB_EMAIL}
     - git config --global user.name ${GITHUB_USERNAME}
@@ -74,7 +74,7 @@ dependencies:
     - sudo service apache2 start
 
   override:
-    - make staging
+   # - make staging
 
 test:
   override:
