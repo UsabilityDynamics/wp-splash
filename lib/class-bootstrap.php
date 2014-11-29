@@ -174,7 +174,7 @@ namespace UsabilityDynamics\Cluster {
         $this->network_domain   = isset( $wpdb->site ) ? $wpdb->get_var( "SELECT domain FROM {$wpdb->site} WHERE id = {$this->network_id}" ) : null;
         $this->allowed_domains  = array( $this->domain, DOMAIN_CURRENT_SITE );
         $this->is_valid         = in_array( $this->requested_domain, $this->allowed_domains ) ? true : false;
-        $this->is_public        = is_object( $current_blog ) ? $current_blog->public : true;
+        $this->is_public        = is_object( $current_blog ) && isset( $current_blog->public ) ? $current_blog->public : true;
         $this->is_main_site     = is_main_site();
         $this->is_multisite     = is_multisite();
         $this->is_main_network  = is_main_network();
@@ -303,7 +303,15 @@ namespace UsabilityDynamics\Cluster {
 
         // Must set or long will not work
         if( !defined( 'COOKIE_DOMAIN' ) ) {
-          define( 'COOKIE_DOMAIN', $this->requested_domain );
+          $_requested_domain = str_replace( "www.", ".", $this->requested_domain );
+
+          // Add "." prefix if not found, this is default WP.
+          if( !substr($_requested_domain, 0, 1) !== '.' && ( defined( 'SUBDOMAIN_COOKIE' ) && SUBDOMAIN_COOKIE ) ) {
+            $_requested_domain = '.' . $_requested_domain;
+          }
+
+          //if( strpos( $_requested_domain, '.', ))
+          define( 'COOKIE_DOMAIN', $_requested_domain );
         }
 
         if( !defined( 'COOKIEHASH' ) ) {
