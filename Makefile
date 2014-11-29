@@ -257,7 +257,6 @@ run:
 		--hostname=${CONTAINER_HOSTNAME} \
 		--publish=80 \
 		--env=WP_ENV=develop \
-		--volume=${HOST_PWD}:/var/www:rw \
 		$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME):latest
 	@docker logs ${CONTAINER_NAME}
 	@echo "Container started. Use 'make check' to test."
