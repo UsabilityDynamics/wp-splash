@@ -69,6 +69,7 @@ dependencies:
     - mkdir -p /home/ubuntu/docker
     - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
     - sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
+    - NODE_ENV=develop npm install
     # - mysql -e "CREATE DATABASE edm_develop;";
     # - mysql -e "CREATE DATABASE edm_staging;";
     # - mysql -e "CREATE DATABASE edm_production;";
