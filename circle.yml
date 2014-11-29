@@ -93,28 +93,17 @@ test:
 
   override:
     - mocha --timeout 60000 --reporter list --ui exports --require should wp-content/static/tests/unit
-    # - mocha wp-content/static/test/functional/assets
-    # - mocha wp-content/static/test/functional/media
-    # - mocha wp-content/static/test/functional/rewrites
-    # - mocha wp-content/static/test/functional/sharding
-
-  post:
-    - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
 
 deployment:
 
   staging:
-    branch: [ "develop" ]
+    branch: develop
     commands:
-      # - wp cloud media push
-      # - wp cloud release --group=edge --instance=2
-      # - wp cloud release --group=edge --instance=2
       - "docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar"
 
   production:
-    branch: [ "production" ]
+    branch: production
     commands:
       # - wp cloud media push
       # - wp cloud release --group=edge --instance=2
       # - wp cloud release --group=edge --instance=2
-      - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
