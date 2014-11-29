@@ -270,6 +270,7 @@ release:
 	@docker tag discodonniepresents/$(CIRCLE_PROJECT_REPONAME):latest discodonniepresents/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
 	@docker push discodonniepresents/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
 	@docker rmi discodonniepresents/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
+	@if [[ -e ~/docker ]]; then; docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar; fi
 	@make remove
 
 ##

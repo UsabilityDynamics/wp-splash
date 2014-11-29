@@ -6,9 +6,9 @@ machine:
   php:
     version: 5.6.2
   services:
+    - docker
     - mysql
     - memcached
-    - docker
     - elasticsearch
 
   hosts:
@@ -60,6 +60,7 @@ dependencies:
 
   cache_directories:
     - "~/docker"
+    - "/var/lib/docker"
 
   pre:
     - sudo  apt-get install -y s3cmd
@@ -68,6 +69,7 @@ dependencies:
     - mkdir -p /home/ubuntu/docker
     - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
     - docker pull hipstack/hipstack:latest
+    - if [[ -e ~/docker/wpcloud.site.tar ]]; then docker load -i ~/docker/wpcloud.site.tar; fi
     - docker pull wpcloud/site:latest
     # - mysql -e "CREATE DATABASE edm_develop;";
     # - mysql -e "CREATE DATABASE edm_staging;";
@@ -82,16 +84,17 @@ dependencies:
     - sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
     - sudo service apache2 start
 
-  override:
+test:
+  pre:
     - make image
 
-  post:
-    - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
-
-test:
   override:
     - mocha wp-content/static/test/unit
     - mocha wp-content/static/test/functional/assets
     - mocha wp-content/static/test/functional/media
     - mocha wp-content/static/test/functional/rewrites
     - mocha wp-content/static/test/functional/sharding
+
+  post:
+    - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
+
