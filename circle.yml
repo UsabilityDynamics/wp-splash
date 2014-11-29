@@ -57,6 +57,7 @@ machine:
     WP_DEBUG_DISPLAY: 0
 
 dependencies:
+
   cache_directories:
     - "~/docker"
 
@@ -66,6 +67,8 @@ dependencies:
     - mkdir -p /home/ubuntu/storage
     - mkdir -p /home/ubuntu/docker
     - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
+    - docker pull hipstack/hipstack:latest
+    - docker pull wpcloud/site:latest
     # - mysql -e "CREATE DATABASE edm_develop;";
     # - mysql -e "CREATE DATABASE edm_staging;";
     # - mysql -e "CREATE DATABASE edm_production;";
@@ -73,10 +76,9 @@ dependencies:
     # - mysql -e "grant all privileges on edm_develop.* to circle@localhost;";
     # - mysql -e "grant all privileges on edm_staging.* to circle@localhost;";
     # - mysql -e "grant all privileges on edm_corporate.* to circle@localhost;";
-    - git config --global push.default simple
-    - git config --global user.email ${GITHUB_EMAIL}
-    - git config --global user.name ${GITHUB_USERNAME}
-    - sudo rm -rf /var/www
+    # - git config --global push.default simple
+    # - git config --global user.email ${GITHUB_EMAIL}
+    # - git config --global user.name ${GITHUB_USERNAME}
     - sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
     - sudo service apache2 start
 
