@@ -155,31 +155,6 @@ snapshotImport:
 	@wp transient delete-all
 	@echo "MySQL snapshot downloaded from gs://discodonniepresents.com/${ACCOUNT_NAME}_${CURRENT_BRANCH}.sql.gz and imported."
 
-## - Import MySQL Snapshot
-##
-##
-develop:
-	@echo "Installing ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CURRENT_TAG} for development."
-	@npm install --silent
-	@rm -rf composer.lock wp-vendor/composer/installed.json wp-vendor/composer/installers
-	@composer update --dev --prefer-source --no-interaction --no-progress
-	@make snapshotImport
-	@wp option update git:branch ${CURRENT_BRANCH}
-	@wp option update git:build ${CIRCLE_BUILD_NUM}
-	@wp option update git:organization ${CIRCLE_PROJECT_USERNAME}
-	@wp option update git:repository ${CIRCLE_PROJECT_REPONAME}
-	@wp transient delete-all
-	@wp cache flush
-
-##
-##
-##
-production:
-	@echo "Installing ${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CURRENT_TAG} for development."
-	@wp option update git:branch ${CURRENT_BRANCH}
-	@wp option update git:organization ${CIRCLE_PROJECT_USERNAME}
-	@wp option update git:repository ${CIRCLE_PROJECT_REPONAME}
-
 ##
 ##
 ##
