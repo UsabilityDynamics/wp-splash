@@ -4,7 +4,7 @@ machine:
   node:
     version: v0.11.13
   php:
-    version: 5.5.9
+    version: 5.6.2
   services:
     - mysql
 
@@ -24,14 +24,10 @@ machine:
     sugarsociety.com: 127.0.0.1
     gxgmag.com: 127.0.0.1
     hireheadline.com: 127.0.0.1
-    old.cominghomemusicfestival.com: 127.0.0.1
     suncitymusicfestival.com: 127.0.0.1
     wildwood.beachblanketfestival.com: 127.0.0.1
-    old.dayafter.com: 127.0.0.1
-    old.somethingwicked.com: 127.0.0.1
     galveston.beachblanketfestival.com: 127.0.0.1
     beachblanketfestival.com: 127.0.0.1
-    old.isladelsolfest.com: 127.0.0.1
     hardwellmx-com.discodonniepresents.com: 127.0.0.1
     dayafter.com: 127.0.0.1
     somethingwicked.com: 127.0.0.1
