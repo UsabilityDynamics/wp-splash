@@ -70,7 +70,7 @@ dependencies:
     - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
     - docker pull hipstack/hipstack:latest
     - if [[ -e ~/docker/wpcloud.site.tar ]]; then docker load -i ~/docker/wpcloud.site.tar; fi
-    - docker pull wpcloud/site:latest
+    - docker pull wpcloud/site
     # - mysql -e "CREATE DATABASE edm_develop;";
     # - mysql -e "CREATE DATABASE edm_staging;";
     # - mysql -e "CREATE DATABASE edm_production;";

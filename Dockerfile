@@ -7,7 +7,7 @@
 ## @author potanin@UD
 #################################################################
 
-FROM          wpcloud/site
+FROM          wpcloud/site:0.2.0
 
 RUN           rm -rf /var/www/**
 
