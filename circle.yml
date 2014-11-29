@@ -63,7 +63,7 @@ dependencies:
     - "/var/lib/docker"
 
   pre:
-    - sudo  apt-get install -y s3cmd
+    # - sudo  apt-get install -y s3cmd
     - curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp
     - mkdir -p /home/ubuntu/storage
     - mkdir -p /home/ubuntu/docker
@@ -88,7 +88,7 @@ test:
   pre:
     - docker pull hipstack/hipstack:latest
     - docker pull wpcloud/sites:latest
-    # - make image
+    - make image
 
   override:
     - mocha wp-content/static/test/unit
@@ -98,5 +98,5 @@ test:
     # - mocha wp-content/static/test/functional/sharding
 
   post:
-    # - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
+    - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
 
