@@ -64,6 +64,7 @@ dependencies:
     - sudo  apt-get install -y s3cmd
     - curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp
     - mkdir -p /home/ubuntu/storage
+    - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
     # - mysql -e "CREATE DATABASE edm_develop;";
     # - mysql -e "CREATE DATABASE edm_staging;";
     # - mysql -e "CREATE DATABASE edm_production;";
