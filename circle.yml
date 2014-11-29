@@ -47,7 +47,7 @@ machine:
     WP_ENV: ${CIRCLE_BRANCH}
     # WP_HOME: http://www.discodonniepresents.com
     # WP_SITEURL: http://www.discodonniepresents.com
-    WP_CORE_DIR: ~/{CIRCLE_PROJECT_REPONAME}
+    # WP_CORE_DIR: ~/{CIRCLE_PROJECT_REPONAME}
     # WP_DB_NAME: edm_${CIRCLE_BRANCH}
     # WP_DB_HOST: localhost
     # WP_DB_USER: circle
@@ -86,14 +86,16 @@ dependencies:
 
 test:
   pre:
+    - docker pull hipstack/hipstack:latest
+    - docker pull wpcloud/sites:latest
     # - make image
 
   override:
     - mocha wp-content/static/test/unit
-    - mocha wp-content/static/test/functional/assets
-    - mocha wp-content/static/test/functional/media
-    - mocha wp-content/static/test/functional/rewrites
-    - mocha wp-content/static/test/functional/sharding
+    # - mocha wp-content/static/test/functional/assets
+    # - mocha wp-content/static/test/functional/media
+    # - mocha wp-content/static/test/functional/rewrites
+    # - mocha wp-content/static/test/functional/sharding
 
   post:
     # - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
