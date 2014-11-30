@@ -93,7 +93,7 @@ dependencies:
 
 test:
   pre:
-    - sudo make image
+    - make image
 
   override:
     - mocha --timeout 60000 --reporter list --ui exports --require should wp-content/static/tests/unit

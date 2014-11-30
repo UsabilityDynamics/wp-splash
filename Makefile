@@ -219,7 +219,7 @@ install:
 ##
 image:
 	@echo "Build Docker Image ${CONTAINER_NAME}."
-	@docker build --rm=true --quiet=true --tag=discodonniepresents/$(CIRCLE_PROJECT_REPONAME):latest .
+	@docker build --quiet=true --tag=discodonniepresents/$(CIRCLE_PROJECT_REPONAME):latest .
 
 ##
 ## sudo chown -R core:core /home/core/.dev/wpcloud/wordpress
