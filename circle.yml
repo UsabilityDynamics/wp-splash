@@ -103,12 +103,14 @@ deployment:
   staging:
     branch: develop
     commands:
-      - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
+      - make release
+      # - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
 
   production:
     branch: production
     commands:
-      - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
+      - make release
+      # - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
       # - wp cloud media push
       # - wp cloud release --group=edge --instance=2
       # - wp cloud release --group=edge --instance=2
