@@ -18,7 +18,7 @@ CURRENT_BRANCH                ?=$(shell git describe --contains --all HEAD)
 CURRENT_COMMIT                ?=$(shell git rev-list -1 HEAD)
 CURRENT_TAG                   ?=$(shell git describe --always --tag)
 ACCOUNT_NAME		              ?=edm
-BUILD_VERSION		              ?=2.3.0
+BUILD_VERSION		              ?=2.3.1
 STORAGE_DIR		                ?=/var/lib/storage/
 CONTAINER_HOSTNAME		        ?=www.discodonniepresents.com
 CONTAINER_NAME		            ?=www.discodonniepresents.com
@@ -245,7 +245,6 @@ release:
 	@docker tag discodonniepresents/$(CIRCLE_PROJECT_REPONAME):latest discodonniepresents/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
 	@docker push discodonniepresents/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
 	@docker rmi discodonniepresents/$(CIRCLE_PROJECT_REPONAME):$(BUILD_VERSION)
-	@if [[ -e ~/docker ]]; then; docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar; fi
 	@make remove
 
 ##
