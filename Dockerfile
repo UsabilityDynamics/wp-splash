@@ -17,8 +17,20 @@ ADD           /wp-includes          /var/www/wp-includes
 ADD           /wp-vendor            /var/www/wp-vendor
 ADD           /.htaccess            /var/www/
 ADD           /composer.json        /var/www/
+ADD           /index.php            /var/www/
 ADD           /wp-cli.yml           /var/www/
-ADD           /*.php                /var/www/
+ADD           /wp-activate.php      /var/www/
+ADD           /wp-blog-header.php   /var/www/
+ADD           /wp-config.php        /var/www/
+ADD           /wp-cron.php          /var/www/
+ADD           /wp-links-opml.php    /var/www/
+ADD           /wp-load.php          /var/www/
+ADD           /wp-login.php         /var/www/
+ADD           /wp-mail.php          /var/www/
+ADD           /wp-settings.php      /var/www/
+ADD           /wp-signup.php        /var/www/
+ADD           /wp-trackback.php     /var/www/
+ADD           /xmlrpc.php           /var/www/
 
 ENV           DOCKER_IMAGE          DiscoDonniePresents/www.discodonniepresents.com
 ENV           DOCKER_REGISTRY       http://registry.wpcloud.io
