@@ -67,9 +67,9 @@ dependencies:
     - curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp
     - mkdir -p /home/ubuntu/storage
     - mkdir -p /home/ubuntu/docker
+    - sudo rm -rf /var/www && sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
     - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
     - NODE_ENV=develop npm install
-    - sudo rm -rf /var/www && sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
     # - mysql -e "CREATE DATABASE edm_develop;";
     # - mysql -e "CREATE DATABASE edm_staging;";
     # - mysql -e "CREATE DATABASE edm_production;";
@@ -82,32 +82,33 @@ dependencies:
     # - git config --global user.name ${GITHUB_USERNAME}
 
   override:
-    # - if [[ -e ~/docker/hipstack-hipstack.tar ]];   then docker load -i ~/docker/hipstack-hipstack.tar; fi
-    # - if [[ -e ~/docker/wpcloud-site.tar ]];        then docker load -i ~/docker/wpcloud-site.tar; fi
-    - docker pull hipstack/hipstack:latest
-    - docker pull wpcloud/site:latest
-    - docker save hipstack/hipstack  > ~/docker/hipstack-hipstack.tar
-    - docker save wpcloud/site > ~/docker/wpcloud-site.tar
-    - sudo service apache2 start
+    # - if [[ -e ~/docker/www.discodonniepresents.com.tar ]]; then docker load -i ~/docker/www.discodonniepresents.com.tar; fi
+    # - if [[ -e ~/docker/hipstack-hipstack.tar ]];           then docker load -i ~/docker/hipstack-hipstack.tar; fi
+    # - if [[ -e ~/docker/wpcloud-site.tar ]];                then docker load -i ~/docker/wpcloud-site.tar; fi
+    - docker pull hipstack/hipstack:latest  # ~ 2:15
+    - docker pull wpcloud/site:latest       # ~ 1:24
+    # - docker save hipstack/hipstack   > ~/docker/hipstack-hipstack.tar        # ~ 1.21
+    # - docker save wpcloud/site        > ~/docker/wpcloud-site.tar             # ~ 1.05
+    # - sudo service apache2 start
 
 test:
   pre:
-    - cd ~/www.discodonniepresents.com && make image
+    - sudo make image
 
   override:
-    - cd ~/www.discodonniepresents.com && mocha --timeout 60000 --reporter list --ui exports --require should wp-content/static/tests/unit
+    - mocha --timeout 60000 --reporter list --ui exports --require should wp-content/static/tests/unit
 
 deployment:
 
   staging:
     branch: develop
     commands:
-      - "docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar"
+      - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
 
   production:
     branch: production
     commands:
-      - "docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar"
+      - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
       # - wp cloud media push
       # - wp cloud release --group=edge --instance=2
       # - wp cloud release --group=edge --instance=2
