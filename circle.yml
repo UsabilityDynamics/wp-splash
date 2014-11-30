@@ -69,7 +69,7 @@ dependencies:
     - mkdir -p /home/ubuntu/docker
     - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
     - NODE_ENV=develop npm install
-    - sudo rm -rf /var/www && ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
+    - sudo rm -rf /var/www && sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
     # - mysql -e "CREATE DATABASE edm_develop;";
     # - mysql -e "CREATE DATABASE edm_staging;";
     # - mysql -e "CREATE DATABASE edm_production;";
@@ -82,10 +82,12 @@ dependencies:
     # - git config --global user.name ${GITHUB_USERNAME}
 
   override:
-    - if [[ -e ~/docker/hipstack-hipstack.tar ]];   then docker load -i ~/docker/hipstack-hipstack.tar; fi
-    - if [[ -e ~/docker/wpcloud-site.tar ]];        then docker load -i ~/docker/wpcloud-site.tar; fi
-    - docker pull hipstack/hipstack:latest  && docker   save hipstack/hipstack  > ~/docker/hipstack-hipstack.tar
-    - docker pull wpcloud/site:latest       && docker   save wpcloud/site       > ~/docker/wpcloud-site.tar
+    # - if [[ -e ~/docker/hipstack-hipstack.tar ]];   then docker load -i ~/docker/hipstack-hipstack.tar; fi
+    # - if [[ -e ~/docker/wpcloud-site.tar ]];        then docker load -i ~/docker/wpcloud-site.tar; fi
+    - docker pull hipstack/hipstack:latest
+    - docker pull wpcloud/site:latest
+    - docker save hipstack/hipstack  > ~/docker/hipstack-hipstack.tar
+    - docker save wpcloud/site > ~/docker/wpcloud-site.tar
     - sudo service apache2 start
 
 test:
