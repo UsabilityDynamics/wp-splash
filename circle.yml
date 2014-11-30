@@ -63,8 +63,7 @@ dependencies:
     - "/var/lib/docker"
 
   pre:
-    # - sudo  apt-get install -y s3cmd
-    - curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp
+    - "curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp"
     - mkdir -p /home/ubuntu/storage
     - mkdir -p /home/ubuntu/docker
     - sudo rm -rf /var/www && sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
@@ -85,7 +84,7 @@ dependencies:
     # - if [[ -e ~/docker/www.discodonniepresents.com.tar ]]; then docker load -i ~/docker/www.discodonniepresents.com.tar; fi
     # - if [[ -e ~/docker/hipstack-hipstack.tar ]];           then docker load -i ~/docker/hipstack-hipstack.tar; fi
     # - if [[ -e ~/docker/wpcloud-site.tar ]];                then docker load -i ~/docker/wpcloud-site.tar; fi
-    - docker pull hipstack/hipstack:latest  # ~ 2:15
+    # - docker pull hipstack/hipstack:latest  # ~ 2:15
     - docker pull wpcloud/site:latest       # ~ 1:24
     # - docker save hipstack/hipstack   > ~/docker/hipstack-hipstack.tar        # ~ 1.21
     # - docker save wpcloud/site        > ~/docker/wpcloud-site.tar             # ~ 1.05
@@ -98,18 +97,23 @@ test:
   override:
     - mocha --timeout 60000 --reporter list --ui exports --require should wp-content/static/tests/unit
 
+  post:
+    - make release
+
 deployment:
 
-  staging:
+  develop:
     branch: develop
     commands:
-      - make release
+      - echo "Releasing development..."
+      # - make release
       # - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
 
   production:
     branch: production
     commands:
-      - make release
+      - echo "Releasing production..."
+      # - make release
       # - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
       # - wp cloud media push
       # - wp cloud release --group=edge --instance=2
