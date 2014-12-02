@@ -4,9 +4,12 @@ machine:
   node:
     version: v0.11.13
   php:
-    version: 5.5.9
+    version: 5.6.2
   services:
-    - mysql
+    - docker
+    - memcached
+    # - mysql
+    # - elasticsearch
 
   hosts:
     edm.wpcloud.io: 127.0.0.1
@@ -24,14 +27,10 @@ machine:
     sugarsociety.com: 127.0.0.1
     gxgmag.com: 127.0.0.1
     hireheadline.com: 127.0.0.1
-    old.cominghomemusicfestival.com: 127.0.0.1
     suncitymusicfestival.com: 127.0.0.1
     wildwood.beachblanketfestival.com: 127.0.0.1
-    old.dayafter.com: 127.0.0.1
-    old.somethingwicked.com: 127.0.0.1
     galveston.beachblanketfestival.com: 127.0.0.1
     beachblanketfestival.com: 127.0.0.1
-    old.isladelsolfest.com: 127.0.0.1
     hardwellmx-com.discodonniepresents.com: 127.0.0.1
     dayafter.com: 127.0.0.1
     somethingwicked.com: 127.0.0.1
@@ -46,44 +45,76 @@ machine:
     NODE_ENV: ${CIRCLE_BRANCH}
     PHP_ENV: ${CIRCLE_BRANCH}
     WP_ENV: ${CIRCLE_BRANCH}
-    WP_HOME: http://www.discodonniepresents.com
-    WP_SITEURL: http://www.discodonniepresents.com
-    WP_CORE_DIR: ~/{CIRCLE_PROJECT_REPONAME}
-    WP_DB_NAME: edm_${CIRCLE_BRANCH}
-    WP_DB_HOST: localhost
-    WP_DB_USER: circle
-    WP_DB_PASSWORD: circle
-    CURRENT_BRANCH: ${CIRCLE_BRANCH}
+    # WP_HOME: http://www.discodonniepresents.com
+    # WP_SITEURL: http://www.discodonniepresents.com
+    # WP_CORE_DIR: ~/{CIRCLE_PROJECT_REPONAME}
+    # WP_DB_NAME: edm_${CIRCLE_BRANCH}
+    # WP_DB_HOST: localhost
+    # WP_DB_USER: circle
+    # WP_DB_PASSWORD: circle
+    # CURRENT_BRANCH: ${CIRCLE_BRANCH}
     WP_DEBUG: true
     WP_DEBUG_DISPLAY: 0
 
 dependencies:
+
+  cache_directories:
+    - "~/docker"
+    - "/var/lib/docker"
+
   pre:
-    - sudo  apt-get install -y s3cmd
-    - wget  -O ~/.s3cfg https://gist.githubusercontent.com/andypotanin/8e1e6b63117a9eb172b6/raw/51af571f391f6866c4c6b3d08d6e7fc466d26609/.s3cfg
-    - curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp
-    - mkdir -p /home/ubuntu/storage/uploads
-    - mysql -e "CREATE DATABASE edm_develop;";
-    - mysql -e "CREATE DATABASE edm_staging;";
-    - mysql -e "CREATE DATABASE edm_production;";
-    - mysql -e "grant usage on *.* to circle@localhost identified by 'circle';";
-    - mysql -e "grant all privileges on edm_develop.* to circle@localhost;";
-    - mysql -e "grant all privileges on edm_staging.* to circle@localhost;";
-    - mysql -e "grant all privileges on edm_corporate.* to circle@localhost;";
-    - git config --global push.default simple
-    - git config --global user.email ${GITHUB_EMAIL}
-    - git config --global user.name ${GITHUB_USERNAME}
-    - sudo rm -rf /var/www
-    - sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
-    - sudo service apache2 start
+    - "curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp"
+    - mkdir -p /home/ubuntu/storage
+    - mkdir -p /home/ubuntu/docker
+    - sudo rm -rf /var/www && sudo ln -fs /home/ubuntu/www.discodonniepresents.com /var/www
+    - docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
+    - NODE_ENV=develop npm install
+    # - mysql -e "CREATE DATABASE edm_develop;";
+    # - mysql -e "CREATE DATABASE edm_staging;";
+    # - mysql -e "CREATE DATABASE edm_production;";
+    # - mysql -e "grant usage on *.* to circle@localhost identified by 'circle';";
+    # - mysql -e "grant all privileges on edm_develop.* to circle@localhost;";
+    # - mysql -e "grant all privileges on edm_staging.* to circle@localhost;";
+    # - mysql -e "grant all privileges on edm_corporate.* to circle@localhost;";
+    # - git config --global push.default simple
+    # - git config --global user.email ${GITHUB_EMAIL}
+    # - git config --global user.name ${GITHUB_USERNAME}
 
   override:
-    - make staging
+    # - if [[ -e ~/docker/www.discodonniepresents.com.tar ]]; then docker load -i ~/docker/www.discodonniepresents.com.tar; fi
+    # - if [[ -e ~/docker/hipstack-hipstack.tar ]];           then docker load -i ~/docker/hipstack-hipstack.tar; fi
+    # - if [[ -e ~/docker/wpcloud-site.tar ]];                then docker load -i ~/docker/wpcloud-site.tar; fi
+    # - docker pull hipstack/hipstack:latest  # ~ 2:15
+    - docker pull wpcloud/site:latest       # ~ 1:24
+    # - docker save hipstack/hipstack   > ~/docker/hipstack-hipstack.tar        # ~ 1.21
+    # - docker save wpcloud/site        > ~/docker/wpcloud-site.tar             # ~ 1.05
+    # - sudo service apache2 start
 
 test:
+  pre:
+    - make image
+
   override:
-    - mocha wp-content/static/test/unit
-    - mocha wp-content/static/test/functional/assets
-    - mocha wp-content/static/test/functional/media
-    - mocha wp-content/static/test/functional/rewrites
-    - mocha wp-content/static/test/functional/sharding
+    - mocha --timeout 60000 --reporter list --ui exports --require should wp-content/static/tests/unit
+
+  post:
+    - make release
+
+deployment:
+
+  develop:
+    branch: develop
+    commands:
+      - echo "Releasing development..."
+      # - make release
+      # - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
+
+  production:
+    branch: production
+    commands:
+      - echo "Releasing production..."
+      # - make release
+      # - docker save discodonniepresents/www.discodonniepresents.com > ~/docker/www.discodonniepresents.com.tar
+      # - wp cloud media push
+      # - wp cloud release --group=edge --instance=2
+      # - wp cloud release --group=edge --instance=2

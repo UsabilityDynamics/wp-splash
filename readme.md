@@ -1,3 +1,10 @@
+### Useful CLI Commands
+
+Resote MySQL snapshot from GCS to Colossus.
+```
+gcloud sql instances import colossus gs://discodonniepresents.com/ddp_production.sql.gz --database="DiscoDonniePresents/www.discodonniepresents.com"
+```
+
 ### Setting up Local Environment
 Before running the following commands, please setup a new MySQL database calling it "edm_develop".
 You will also need to have [gsutil](https://cloud.google.com/storage/docs/gsutil), [wp-cli](http://wp-cli.org/gsutil) and [direnv](https://github.com/zimbatm/direnv) installed:

@@ -57,29 +57,12 @@
       },
       "db": [
         {
-          "name": "edm",
-          "user": "edm",
-          "password": "psxcazdhbpoxbkfl",
-          "host": "localhost",
-          "prefix": "edm_",
-          "read": 1,
-          "write": 0
-        },
-        {
-          "name": "edm",
+          "name": "DiscoDonniePresents/www.discodonniepresents.com",
           "user": "edm",
           "password": "xdzepwgzeqmuuisq",
           "host": "colossus.wpcloud.io",
-          "read": 2,
-          "write": 1
-        },
-        {
-          "name": "edm",
-          "user": "edm",
-          "password": "xdzepwgzeqmuuisq",
-          "host": "monarch.wpcloud.io",
-          "read": 3,
-          "write": 2
+          "read": 10,
+          "write": 10
         }
       ],
       "disallow": {

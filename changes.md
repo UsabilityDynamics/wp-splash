@@ -1,3 +1,6 @@
+#### 2.3.1
+* Added Dockerfile with CircleCI configuration for Docker Hub build and deployment.
+
 #### 2.3.0
 * (WIP) Add wp-comment-post.php rewrite for posting comments instead of symlinking file.
 * (WIP) Added standard "save site" method to fix common issues such as upload paths/urls, transient paths, etc.
