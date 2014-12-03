@@ -1,5 +1,4 @@
 #### 2.3.2
-* test 
 * Version bump, testing staging (dud) server deployment. 
 
 #### 2.3.1
