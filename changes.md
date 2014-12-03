@@ -1,5 +1,6 @@
 #### 2.3.2
-* Version bump, testing staging (dud) server deployment.
+* test 
+* Version bump, testing staging (dud) server deployment. 
 
 #### 2.3.1
 * Added Dockerfile with CircleCI configuration for Docker Hub build and deployment.
