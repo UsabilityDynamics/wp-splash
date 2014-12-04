@@ -47,6 +47,8 @@ setEnvironment:
 subtreePull:
 	@git subtree pull --prefix=wp-content/static/wiki git@github.com:DiscoDonniePresents/www.discodonniepresents.com.wiki master --squash
 	@git subtree pull --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
+	@git subtree pull --prefix=wp-content/plugins/wp-mobile-site git@github.com:UsabilityDynamics/wp-mobile-site master --squash
+	@git subtree pull --prefix=wp-content/plugins/wp-festival-site git@github.com:UsabilityDynamics/wp-festival-site master --squash
 	@git subtree pull --prefix=wp-content/plugins/wp-cluster git@github.com:UsabilityDynamics/wp-cluster master --squash
 	@git subtree pull --prefix=wp-content/plugins/wp-crm git@github.com:UsabilityDynamics/wp-crm master --squash
 	@git subtree pull --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
@@ -80,6 +82,8 @@ subtreePull:
 subtreePush:
 	@git subtree push --prefix=wp-content/static/wiki git@github.com:DiscoDonniePresents/www.discodonniepresents.com.wiki master --squash
 	@git subtree push --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
+	@git subtree push --prefix=wp-content/plugins/wp-mobile-site git@github.com:UsabilityDynamics/wp-mobile-site master --squash
+	@git subtree push --prefix=wp-content/plugins/wp-festival-site git@github.com:UsabilityDynamics/wp-festival-site master --squash
 	@git subtree push --prefix=wp-content/plugins/wp-cluster git@github.com:UsabilityDynamics/wp-cluster master --squash
 	@git subtree push --prefix=wp-content/plugins/wp-crm git@github.com:UsabilityDynamics/wp-crm master --squash
 	@git subtree push --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
