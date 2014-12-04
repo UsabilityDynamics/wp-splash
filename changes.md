@@ -1,3 +1,9 @@
+### 2.1.6
+* Fixes to temporary artist module
+
+### 2.1.5
+* Added temporary artist module
+
 ### 2.1.4
 * JS modifications
 

@@ -671,6 +671,39 @@
       ]
     },
     {
+      "key": "artist_lineup_callout_background_color",
+      "label": "Callout Background Color",
+      "priority": 71,
+      "section": "artist_lineup",
+      "control": "background-color",
+      "important": true,
+      "selector": [
+        ".artists-list.new-artist-list .tier2-artist-header"
+      ]
+    },
+    {
+      "key": "artist_lineup_artist_odd_background",
+      "label": "Artist Odd Background Color",
+      "priority": 72,
+      "section": "artist_lineup",
+      "control": "background-color",
+      "important": false,
+      "selector": [
+        ".artists-list.new-artist-list .col:nth-child(2n) .tier2-artist"
+      ]
+    },
+    {
+      "key": "artist_lineup_artist_even_background",
+      "label": "Artist Even Background Color",
+      "priority": 73,
+      "section": "artist_lineup",
+      "control": "background-color",
+      "important": false,
+      "selector": [
+        ".artists-list.new-artist-list .tier2-artist"
+      ]
+    },
+    {
       "key": "block_links_paragraph_color",
       "label": "Paragraph Color",
       "priority": 10,
