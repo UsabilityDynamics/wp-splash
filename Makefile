@@ -47,6 +47,8 @@ setEnvironment:
 subtreePull:
 	@git subtree pull --prefix=wp-content/static/wiki git@github.com:DiscoDonniePresents/www.discodonniepresents.com.wiki master --squash
 	@git subtree pull --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
+	@git subtree pull --prefix=wp-content/plugins/wp-mobile-site git@github.com:wpCloud/wp-mobile-site master --squash
+	@git subtree pull --prefix=wp-content/plugins/wp-festival-site git@github.com:wpCloud/wp-festival-site master --squash
 	@git subtree pull --prefix=wp-content/plugins/wp-cluster git@github.com:UsabilityDynamics/wp-cluster master --squash
 	@git subtree pull --prefix=wp-content/plugins/wp-crm git@github.com:UsabilityDynamics/wp-crm master --squash
 	@git subtree pull --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
@@ -68,6 +70,7 @@ subtreePull:
 	@git subtree pull --prefix=wp-content/themes/wp-spectacle-chmf git@github.com:DiscoDonniePresents/wp-spectacle-chmf master --squash
 	@git subtree pull --prefix=wp-content/themes/wp-spectacle-mbp git@github.com:DiscoDonniePresents/wp-spectacle-mbp master --squash
 	@git subtree pull --prefix=wp-content/themes/wp-spectacle-fbt git@github.com:DiscoDonniePresents/wp-spectacle-fbt master --squash
+	@git subtree pull --prefix=wp-content/themes/wp-phonegap git@github.com:DiscoDonniePresents/wp-phonegap master --squash
 	@git subtree pull --prefix=wp-content/themes/wp-festival-smf git@github.com:DiscoDonniePresents/wp-festival-smf master --squash
 	@git subtree pull --prefix=wp-content/themes/wp-spectacle-isladelsol git@github.com:DiscoDonniePresents/wp-spectacle-isladelsol master --squash
 	@git subtree pull --prefix=wp-content/static/mocks git@github.com:DiscoDonniePresents/mocks.git master --squash
@@ -79,6 +82,8 @@ subtreePull:
 subtreePush:
 	@git subtree push --prefix=wp-content/static/wiki git@github.com:DiscoDonniePresents/www.discodonniepresents.com.wiki master --squash
 	@git subtree push --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
+	@git subtree push --prefix=wp-content/plugins/wp-mobile-site git@github.com:wpCloud/wp-mobile-site master --squash
+	@git subtree push --prefix=wp-content/plugins/wp-festival-site git@github.com:wpCloud/wp-festival-site master --squash
 	@git subtree push --prefix=wp-content/plugins/wp-cluster git@github.com:UsabilityDynamics/wp-cluster master --squash
 	@git subtree push --prefix=wp-content/plugins/wp-crm git@github.com:UsabilityDynamics/wp-crm master --squash
 	@git subtree push --prefix=wp-content/plugins/wp-amd git@github.com:UsabilityDynamics/wp-amd master --squash
@@ -100,6 +105,7 @@ subtreePush:
 	@git subtree push --prefix=wp-content/themes/wp-spectacle-chmf git@github.com:DiscoDonniePresents/wp-spectacle-chmf master --squash
 	@git subtree push --prefix=wp-content/themes/wp-spectacle-mbp git@github.com:DiscoDonniePresents/wp-spectacle-mbp master --squash
 	@git subtree push --prefix=wp-content/themes/wp-spectacle-fbt git@github.com:DiscoDonniePresents/wp-spectacle-fbt master --squash
+	@git subtree push --prefix=wp-content/themes/wp-phonegap git@github.com:DiscoDonniePresents/wp-phonegap master --squash
 	@git subtree push --prefix=wp-content/themes/wp-festival-smf git@github.com:DiscoDonniePresents/wp-festival-smf master --squash
 	@git subtree push --prefix=wp-content/themes/wp-spectacle-isladelsol git@github.com:DiscoDonniePresents/wp-spectacle-isladelsol master --squash
 	@git subtree push --prefix=wp-content/static/mocks git@github.com:DiscoDonniePresents/mocks.git master --squash
