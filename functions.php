@@ -59,7 +59,10 @@ add_action( 'flawless::init_lower', array( 'hddp', 'init_lower' ) );
 add_filter( 'elasticsearch_indexer_build_document', array( 'hddp', 'build_elastic_document' ), 10, 2 );
 add_action( 'flawless::setup_theme_features::after', array( 'hddp', 'carrington_build' ) );
 
-add_action( 'admin_menu', array( 'hddp', "es_menu" ), 11 );
+add_action( 'admin_menu', array( 'hddp', 'es_menu' ), 11 );
+
+add_action( 'post_submitbox_misc_actions', array( 'hddp', 'autogenerator_submitbox_actions' ) );
+add_action( 'save_post', array( 'hddp', 'autogenerate_post_elements' ), 1, 2 );
 
 /**
  * fix for broken CSS
@@ -861,6 +864,201 @@ class hddp extends Flawless_F {
     }
 
     return '<figure ' . $id . 'class="wp-caption ' . esc_attr( $align ) . '" >' . do_shortcode( $content ) . '<figcaption ' . $capid . 'class="wp-caption-text">' . $caption . '</figcaption></figure>';
+  }
+
+  static public function get_autogenerator_data() {
+    return array(
+      'post_types'  => array(
+        'event',
+        'imagegallery',
+        'videoobject',
+      ),
+      'fields'      => array(
+        'post_title'  => array(
+          'allow_do_not'=> true,
+          'label'       => 'Do not generate the title.',
+          'callback'    => array( __CLASS__, 'autogenerate_post_title' ),
+        ),
+        'post_name'   => array(
+          'allow_do_not'=> true,
+          'label'       => 'Do not generate the slug.',
+          'callback'    => array( __CLASS__, 'autogenerate_post_name' ),
+        ),
+        'post_excerpt'=> array(
+          'allow_do_not'=> false,
+          'label'       => 'Do not generate the excerpt.',
+          'callback'    => array( __CLASS__, 'autogenerate_post_excerpt' ),
+          'depends_on'  => 'post_title',
+        ),
+      ),
+    );
+  }
+
+  static public function autogenerator_submitbox_actions() {
+    global $post;
+
+    $autogenerator = self::get_autogenerator_data();
+
+    if ( in_array( $post->post_type, $autogenerator['post_types'] ) ) {
+      foreach ( $autogenerator['fields'] as $field_name => $args ) {
+        if ( $args['allow_do_not'] ) {
+          echo '<p><input type="checkbox" name="do_not_generate_' . $field_name . '" value="true"' . checked( true, get_post_meta( $post->ID, 'do_not_generate_' . $field_name, true ), false ) . '> ' . $args['label'] . '</p>';
+        }
+      }
+    }
+  }
+
+  static public function autogenerate_post_elements( $post_id, $post ) {
+    global $wpdb;
+
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+      return $post_id;
+    }
+
+    if ( $post->post_status == 'auto-draft' ) {
+      return;
+    }
+
+    if ( wp_is_post_revision( $post_id ) ) {
+      return;
+    }
+
+    $autogenerator = self::get_autogenerator_data();
+
+    if( in_array( $post->post_type, $autogenerator['post_types'] ) )
+    {
+      $post_updated = array();
+      foreach ( $autogenerator['fields'] as $field_name => $args ) {
+        $generate = true;
+        if ( $args['allow_do_not'] ) {
+          if ( isset( $_REQUEST['do_not_generate_' . $field_name ] ) ) {
+            update_post_meta( $post_id, 'do_not_generate_' . $field_name, true );
+            if ( $_REQUEST['do_not_generate_' . $field_name ] ) {
+              $generate = false;
+            }
+          } else {
+            delete_post_meta( $post_id, 'do_not_generate_' . $field_name );
+          }
+        }
+
+        if ( $generate && is_callable( $args['callback'] ) ) {
+          $callback_args = array( $post );
+          if ( isset( $args['depends_on'] ) && !empty( $args['depends_on'] ) ) {
+            if ( !is_array( $args['depends_on'] ) ) {
+              $args['depends_on'] = array( $args['depends_on'] );
+            }
+            foreach ( $args['depends_on'] as $arg ) {
+              if ( isset( $post_updated[ $arg ] ) ) {
+                $callback_args[] = $post_updated[ $arg ];
+              } elseif( isset( $post->$arg ) ) {
+                $callback_args[] = $post->$arg;
+              } else {
+                $callback_args[] = '';
+              }
+            }
+          }
+          $generated = call_user_func_array( $args['callback'], $callback_args );
+
+          if ( $generated !== false ) {
+            $post_updated[ $field_name ] = $generated;
+          }
+        }
+      }
+
+      if ( count( $post_updated ) > 0 ) {
+        $wpdb->update( $wpdb->posts, $post_updated, array( 'ID' => $post_id ) );
+      }
+    }
+  }
+
+  static public function autogenerate_post_title( $post ) {
+    $event_id = self::get_event_id( $post );
+    if ( !$event_id ) {
+      return false;
+    }
+
+    $artists = get_post_meta( $event_id, 'artists' );
+    if ( !is_array( $artists ) ) {
+      $artists = array( $artists );
+    }
+    foreach ( $artists as &$artist ) {
+      $artist = get_the_title( $artist );
+    }
+
+    $venue = get_post_meta( $event_id, 'venue', true );
+    $venue = get_the_title( $venue );
+
+    return sprintf( '%1$s at %2$s', implode( ', ', $artists ), $venue );
+  }
+
+  static public function autogenerate_post_name( $post ) {
+    $event_id = self::get_event_id( $post );
+    if ( !$event_id ) {
+      return false;
+    }
+
+    $date = strtotime( get_post_meta( $event_id, 'dateStart', true ) );
+    $date = date( 'Y-md', $date );
+
+    $venue = get_post_meta( $event_id, 'venue', true );
+    $city = wp_get_object_terms( $venue, 'city', array( 'fields' => 'names' ) );
+    $venue = get_the_title( $venue );
+    if ( is_array( $city ) ) {
+      reset( $city );
+      $city = $city[ key( $city ) ];
+    } else {
+      $city = '';
+    }
+
+    return wp_unique_post_slug( sanitize_title( sprintf( '%1$s %2$s %3$s', $date, $city, $venue ) ), $post->ID, $post->post_status, $post->post_type, $post->post_parent );
+  }
+
+  static public function autogenerate_post_excerpt( $post, $post_title ) {
+    $event_id = self::get_event_id( $post );
+    if ( !$event_id ) {
+      return false;
+    }
+
+    if ( empty( $post_title ) ) {
+      $post_title = self::autogenerate_post_title( $post );
+    }
+
+    $venue = get_post_meta( $event_id, 'venue', true );
+
+    $city = wp_get_object_terms( $venue, 'city', array( 'fields' => 'names' ) );
+    if ( is_array( $city ) ) {
+      reset( $city );
+      $city = $city[ key( $city ) ];
+    } else {
+      $city = '';
+    }
+    
+    $state = wp_get_object_terms( $venue, 'state', array( 'fields' => 'names' ) );
+    if ( is_array( $state ) ) {
+      reset( $state );
+      $state = $state[ key( $state ) ];
+    } else {
+      $state = '';
+    }
+
+    $raw_date = strtotime( get_post_meta( $event_id, 'dateStart', true ) );
+
+    $date = date( 'l, F j, Y', $raw_date );
+
+    $time = date( 'g:i A', $raw_date );
+
+    return sprintf( '%1$s in %2$s, %3$s on %4$s at %5$s', $post_title, $city, $state, $date, $time );
+  }
+
+  static private function get_event_id( $post ) {
+    $event_id = $post->ID;
+    if ( $post->post_type != 'event' ) {
+      $event_id = get_post_meta( $post->ID, 'event', true );
+      if ( !$event_id ) {
+        return false;
+      }
+    }
+    return $event_id;
   }
 
   static public function maybe_redirect_post_type_archive() {

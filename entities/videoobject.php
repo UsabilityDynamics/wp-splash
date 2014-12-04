@@ -146,10 +146,17 @@ namespace DiscoDonniePresents {
           }
         }
 
-        $_object[ 'tour' ] = array(
-          'name' => $this->event()->tour()->post('post_title'),
-          'url' => get_permalink( $this->event()->tour()->post('ID') )
-        );
+        if ( $this->event()->tour() ) {
+          $_object[ 'tour' ] = array(
+            'name' => $this->event()->tour()->post('post_title'),
+            'url' => get_permalink( $this->event()->tour()->post('ID') )
+          );
+        } else {
+          $_object[ 'tour' ] = array(
+            'name' => '',
+            'url' => ''
+          );
+        }
 
         $city = $this->event()->venue()->taxonomies('city', 'elasticsearch');
         $state = $this->event()->venue()->taxonomies('state', 'elasticsearch');
