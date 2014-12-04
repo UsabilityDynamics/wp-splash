@@ -115,6 +115,7 @@
     "linkorb/etcd-php": "master",
     "erusev/parsedown": "~1.1.1",
     "firephp/firephp-core": "master",
+    "oauth-io/oauth": "0.2.0",
     "discodonniepresents/wp-bassoddysey": "master",
     "discodonniepresents/wp-braxton": "master",
     "discodonniepresents/wp-dayafter": "master",
