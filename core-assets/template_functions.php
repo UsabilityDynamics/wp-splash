@@ -296,11 +296,12 @@ if( !function_exists( 'flawlessss_breadcrumbs' ) ) {
         $post_type = get_post_type_object( get_post_type());
         $slug = $post_type->rewrite;
 
-        //** Check if this content type has a custom Root page */
-        if( $flawless[ 'post_types' ][get_post_type()][ 'root_page' ] ) {
-          $content_type_home = get_permalink( $flawless[ 'post_types' ][get_post_type()][ 'root_page' ] );
-        } else {
-          $content_type_home = flawless_theme::filter_post_link( $args[ 'home_link' ]. '/' . $slug[ 'slug' ] . '/', $post );
+        $content_type_home = '';
+
+        //** Check if this content type has a custom Root page and only display a link in this case */
+        $root_page = hddp::get_root_page( get_post_type() );
+        if ( $root_page ) {
+          $content_type_home = get_permalink( $root_page );
         }
 
         /** Fix 'Pages' */
@@ -317,7 +318,7 @@ if( !function_exists( 'flawlessss_breadcrumbs' ) ) {
           $title = $post_type->labels->name;
         }
 
-        if ( in_array( get_post_type(), array( 'event', 'imagegallery', 'videoobject' ) ) ) {
+        if ( !empty( $content_type_home ) ) {
           $html[ 'content_type_home' ] = '<a href="' . $content_type_home . '">' . $title . '</a>';
         } else {
           $html[ 'content_type_home' ] = '<span>' . $title . '</span>';
@@ -340,8 +341,9 @@ if( !function_exists( 'flawlessss_breadcrumbs' ) ) {
       $post_type = get_post_type_object( get_post_type() );
 
       //** Check if this content type has a custom Root page */
-      if( $flawless[ 'post_types' ][get_post_type()][ 'root_page' ] ) {
-        $content_type_home = get_permalink( $flawless[ 'post_types' ][get_post_type()][ 'root_page' ] );
+      $root_page = hddp::get_root_page( get_post_type() );
+      if ( $root_page ) {
+        $content_type_home = get_permalink( $root_page );
       } else {
         $content_type_home = flawless_theme::filter_post_link( $args[ 'home_link' ]. '/' . $slug[ 'slug' ] . '/', $post );
       }

@@ -15,10 +15,18 @@
 .flawless_toggable_debug {
   background-color: #767676;
   color: #FFFFFF;
-  height: 20px;
   opacity: 0.3;
   overflow: hidden;
   padding: 5px 10px;
+  height: 10em;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  transition: all .5s ease;
+  &:hover {
+    opacity: 1;
+    height: 30em;
+    overflow-y: scroll;
+  }
   &.flawless_debug_visible {
     opacity: 1;
     height: auto;

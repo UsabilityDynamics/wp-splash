@@ -10,21 +10,21 @@
   location_field: 'venue.address.geo',
   facets: {
     'artists.name': 'Artist',
-    'venue.address.state.name': 'State',
-    'venue.address.city.name': 'City',
+    'venue.address.state': 'State',
+    'venue.address.city': 'City',
     'venue.name': 'Venue',
     'promoters.name': 'Promoter',
     'tour.name': 'Tour',
-    'event_type.name': 'Type',
-    'artists.genre.name': 'Genre',
-    'age_restriction.name': 'Age Limit'
+    'event_type': 'Type',
+    'artists.genre': 'Genre',
+    'age_restriction': 'Age Limit'
   },
   return_fields: [
     'start_date',
     'description',
     'summary',
-    'venue.address.city.name',
-    'venue.address.state.name',
+    'venue.address.city',
+    'venue.address.state',
     'url',
     'image.poster',
     'venue.name',

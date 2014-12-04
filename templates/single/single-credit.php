@@ -92,7 +92,7 @@
           middle_timepoint: { gte: 'now-1d', lte: 'now-1d' },
           per_page: 6, period: false, period_field: 'event_date', sort_by: 'event_date', type: 'imagegallery', location_field: 'venue.address.geo',
           custom_query: { filter: { bool: { must: [{ term: { 'credit.name': '<?php echo $credit->post('post_title'); ?>'}}]}}},
-          return_fields: [ 'summary', 'url', 'image.small', 'image.poster', 'event_date', 'venue.address.state.name', 'venue.address.city.name']}" class="elastic_form">
+          return_fields: [ 'summary', 'url', 'image.small', 'image.poster', 'event_date', 'venue.address.state', 'venue.address.city']}" class="elastic_form">
         </form>
 
         <?php get_template_part('templates/elastic/loop', 'imagegallery'); ?>
@@ -106,7 +106,7 @@
           middle_timepoint: { gte: 'now-1d', lte: 'now-1d' },
           per_page: 6, period: false, period_field: 'event_date', sort_by: 'event_date', type: 'videoobject', location_field: 'venue.address.geo',
           custom_query: { filter: { bool: { must: [{ term: { 'credit.name': '<?php echo $credit->post('post_title'); ?>'}}]}}},
-          return_fields: [ 'summary', 'url', 'image.small', 'image.poster', 'event_date', 'venue.address.state.name', 'venue.address.city.name']}" class="elastic_form">
+          return_fields: [ 'summary', 'url', 'image.small', 'image.poster', 'event_date', 'venue.address.state', 'venue.address.city']}" class="elastic_form">
         </form>
 
         <?php get_template_part('templates/elastic/loop', 'videoobject'); ?>

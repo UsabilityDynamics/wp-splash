@@ -199,10 +199,7 @@ namespace DiscoDonniePresents {
             $_return = array();
 
             foreach( $this->_taxonomies[ $slug ] as $_term ) {
-              $_return[] = array(
-                'name'      => $_term->name,
-                'url'       => get_term_link( $_term->slug, $slug ),
-              );
+              $_return[] = $_term->name;
             }
 
             return $_return;
@@ -466,7 +463,7 @@ namespace DiscoDonniePresents {
 
         $_object['summary'] = $this->getValue();
         $_object['url']     = $this->getUrl();
-
+        
         return $_object;
 
       }

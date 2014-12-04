@@ -17,8 +17,8 @@ namespace DiscoDonniePresents {
        * @var type
        */
       public $_taxToElasticField = array(
-          'age-limit' => 'age_restriction.name',
-          'event-type' => 'event_type.name'
+          'age-limit' => 'age_restriction',
+          'event-type' => 'event_type'
       );
 
     }

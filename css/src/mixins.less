@@ -19,4 +19,15 @@
   margin-right: 1.1em;
 }
 
+.gradient-vertical(@start-color: #000000, @end-color: #ffffff) {
+  background-color: average(@start-color, @end-color);
+  background-image: -moz-linear-gradient(top, @start-color, @end-color);
+  background-image: -ms-linear-gradient(top, @start-color, @end-color);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@start-color), to(@end-color));
+  background-image: -webkit-linear-gradient(top, @start-color, @end-color);
+  background-image: -o-linear-gradient(top, @start-color, @end-color);
+  background-image: linear-gradient(top, @start-color, @end-color);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@start-color', endColorstr='@end-color', GradientType=0);  
+}
+
 //TODO: put some more useful mixins in here

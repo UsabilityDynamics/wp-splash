@@ -17,7 +17,7 @@ namespace DiscoDonniePresents {
        * @var type
        */
       public $_taxToElasticField = array(
-          'genre' => 'artists.genre.name'
+          'genre' => 'artists.genre'
       );
 
     }

@@ -28,7 +28,7 @@
                   </li>
                   <li class="hdp_photo_title"><a data-bind="html:fields['summary'],attr:{href:fields['url'],title:'Photos from '+fields['summary']}"></a></li>
                   <li class="hdp_photo_date" data-bind="visible:fields.event_date[0],html:moment(fields.event_date[0]).format('LLLL')"></li>
-                  <li class="hdp_photo_location" data-bind="visible:fields['venue.address.city.name'] && fields['venue.address.state.name'],html:(fields['venue.address.city.name']+', '+fields['venue.address.state.name'])"></li>
+                  <li class="hdp_photo_location" data-bind="visible:fields['venue.address.city'] && fields['venue.address.state'],html:(fields['venue.address.city']+', '+fields['venue.address.state'])"></li>
                 </ul>
               </li>
             </ul>

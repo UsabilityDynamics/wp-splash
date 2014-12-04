@@ -10,15 +10,15 @@
     'image.small',
     'image.poster',
     'event_date',
-    'venue.address.state.name',
-    'venue.address.city.name'
+    'venue.address.state',
+    'venue.address.city'
   ],
   facets: {
     'artists.name': 'Artist',
-    'venue.address.state.name': 'State',
-    'venue.address.city.name': 'City',
+    'venue.address.state': 'State',
+    'venue.address.city': 'City',
     'venue.name': 'Venue',
-    'event_type.name': 'Event Type',
+    'event_type': 'Event Type',
     'promoters.name': 'Promoters'
   }
 }">
@@ -65,7 +65,7 @@
                   </li>
                   <li class="hdp_video_title"><a data-bind="html:fields['summary'],attr:{href:fields['url'],title:'Videos from '+fields['summary']}"></a></li>
                   <li class="hdp_video_date" data-bind="visible:fields.event_date[0],html:moment(fields.event_date[0]).format('LLLL')"></li>
-                  <li class="hdp_video_location" data-bind="visible:fields['venue.address.city.name'] && fields['venue.address.state.name'],html:(fields['venue.address.city.name'] +', '+fields['venue.address.state.name'])"></li>
+                  <li class="hdp_video_location" data-bind="visible:fields['venue.address.city'] && fields['venue.address.state'],html:(fields['venue.address.city'] +', '+fields['venue.address.state'])"></li>
                 </ul>
               </li>
             </ul>

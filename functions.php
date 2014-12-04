@@ -265,6 +265,9 @@ class hddp extends Flawless_F {
       add_action( 'wp_ajax_remap_all', array( __CLASS__, "es_remap_all" ) );
     }
 
+    // redirect unused post type archives
+    add_action( 'template_redirect', array( __CLASS__, 'maybe_redirect_post_type_archive' ) );
+
     // Check whether the Meta-Box plugin is installed or not
     add_action( 'admin_notices', array( __CLASS__, 'check_for_metabox_plugin' ) );
     add_action( 'network_admin_notices', array( __CLASS__, 'check_for_metabox_plugin' ) );
@@ -858,6 +861,34 @@ class hddp extends Flawless_F {
     }
 
     return '<figure ' . $id . 'class="wp-caption ' . esc_attr( $align ) . '" >' . do_shortcode( $content ) . '<figcaption ' . $capid . 'class="wp-caption-text">' . $caption . '</figcaption></figure>';
+  }
+
+  static public function maybe_redirect_post_type_archive() {
+    if ( is_post_type_archive() ) {
+      $root_page = self::get_root_page( get_post_type() );
+      if ( $root_page ) {
+        wp_redirect( get_permalink( $root_page ) );
+        exit();
+      }
+    }
+  }
+
+  static public function get_root_page( $post_type ) {
+    $root_pages = array(
+      'event'         => 'events',
+      'imagegallery'  => 'photos',
+      'videoobject'   => 'videos',
+    );
+
+    if( isset( $root_pages[ $post_type ] ) )
+    {
+      $page = get_page_by_path( $root_pages[ $post_type ] );
+      if( $page )
+      {
+        return $page->ID;
+      }
+    }
+    return false;
   }
 
   /**
