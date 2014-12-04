@@ -1,0 +1,13 @@
+{
+  "name": "wp-mobile-site",
+  "version": "0.1.1",
+  "description": "wpCloud.io site type.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wpCloud/wp-mobile-site"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {}
+}
