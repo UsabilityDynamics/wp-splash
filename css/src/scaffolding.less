@@ -88,6 +88,12 @@ pre {
   clear: both;
 }
 
+code {
+  padding: 0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
 table {
   width: 100%;
   margin-bottom: 1em;
@@ -96,12 +102,19 @@ table {
     padding: 8px;
     text-align: left;
     vertical-align: top;
+    border-top: 0;
   }
   th {
     font-weight: bold;
   }
   thead th {
     vertical-align: bottom;
+  }
+  tbody tr:hover {
+    th,
+    td {
+      background-color: transparent;
+    }
   }
 }
 
@@ -113,7 +126,36 @@ table {
   color: inherit;
 }
 
+.entry-content > ul,
+.entry-content > ol,
+.cfct-html > ol,
+.cfct-html > ul,
+.cfct-rich-text > ul,
+.cfct-rich-text > ol {
+  margin: 0 0 18px 25px;
+}
+
+.cfct-mod-content > ul > li > ul,
+.cfct-mod-content > ol > li > ol,
+.textwidget > ul > li > ul,
+.textwidget > ol > li > ol {
+  margin-left: 10px;
+}
+
+@media ( min-width: 980px ) {
+
+  .mobile-only {
+    display: none;
+  }
+
+}
+
 @media ( max-width: 979px ) {
+
+  body {
+    padding-top: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
 
   .not-for-iphone {
     display: none !important;
@@ -121,14 +163,6 @@ table {
 
   body {
     padding-top: 0;
-  }
-
-}
-
-@media ( min-width: 980px ) {
-
-  .mobile-only {
-    display: none;
   }
 
 }

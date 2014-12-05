@@ -36,9 +36,7 @@ p.center_align {
 }
 
 .dropshadow {
-  -moz-box-shadow:0 0 7px #BBC68B;
-  -webkit-box-shadow:0 0 7px #BBC68B;
-  box-shadow:0 0 7px #BBC68B;
+  .box-shadow(0 0 7px #bbc68b);
 }
 
 .slider.dropshadow,
@@ -50,6 +48,30 @@ p.center_align {
 
 #section_map img {
   max-width: none;
+}
+
+.meta {
+  display: none;
+}
+
+#fancybox-overlay {
+  z-index: 9999;
+}
+
+.fancybox-opened {
+  z-index: 99999;
+}
+
+#lang_sel_click a.lang_sel_sel {
+  background-color: #0F0E0E;
+  color: #FFF;
+  &:hover {
+    color: #FFF;
+  }
+}
+
+#wpstats {
+  display: none;
 }
 
 @media screen {

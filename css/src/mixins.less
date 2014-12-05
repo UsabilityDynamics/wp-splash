@@ -30,4 +30,26 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@start-color', endColorstr='@end-color', GradientType=0);  
 }
 
-//TODO: put some more useful mixins in here
+.border-radius(@border-radius: 0) {
+  -webkit-border-radius: @border-radius;
+  -moz-border-radius: @border-radius;
+  border-radius: @border-radius;
+}
+
+.box-shadow(@box-shadow: none) {
+  -webkit-box-shadow: @box-shadow;
+  -moz-box-shadow: @box-shadow;
+  box-shadow: @box-shadow;
+}
+
+.text-shadow(@text-shadow: none) {
+  -webkit-text-shadow: @text-shadow;
+  -moz-text-shadow: @text-shadow;
+  text-shadow: @text-shadow;
+}
+
+.transition(@transition) {
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  transition: @transition;
+}
