@@ -1,3 +1,6 @@
+### 2.1.7
+* Added customizer schemas for navigation elements
+
 ### 2.1.6
 * Fixes to temporary artist module
 
