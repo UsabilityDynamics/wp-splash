@@ -75,21 +75,9 @@
 				<h3>Early bird tickets <br class="force-nl">on sale</h3>
 				<h2>Fri, Dec 5, <br class="force-nl">2014</h2>
 
-        <div class="countdown">
-          <div class="timer" data-todate="Fri, 05 Dec 2014 10:00:00 EST">
-            <div class="days">0</div>
-            <div class="hours">0</div>
-            <div class="minutes">0</div>
-            <div class="seconds">0</div>
-          </div>
-          <div class="timer-meta clearfix">
-            <div class="day">D</div>
-            <div class="hour">H</div>
-            <div class="minute">M</div>
-            <div class="second">S</div>
-          </div>
-        </div>
-      </div>
+				<a href="http://www.eventbrite.com/e/sunset-music-festival-2015-tickets-14176487255?aff=es2&rank=1" target="_blank" class="button">Buy Ticket</a>
+
+			</div>
     </div>
   </div>
 
