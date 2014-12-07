@@ -269,6 +269,32 @@
         ".navigation-overlay nav .right-column .dropdown-menu li a:hover"
       ]
     },
+		{
+			"key": "general_navigation_link_color",
+			"label": "Navigation Link Color",
+			"priority": 80,
+			"section": "general",
+			"control": "color",
+			"important": false,
+			"selector": [
+				".navigation-overlay nav .left-column > a",
+				".navigation-overlay nav .right-column .dropdown-menu li a"
+			]
+		},
+		{
+			"key": "general_navigation_link_active_color",
+			"label": "Navigation Active Link Color",
+			"priority": 80,
+			"section": "general",
+			"control": "color",
+			"important": false,
+			"selector": [
+				".navigation-overlay nav .left-column > a:hover",
+				".navigation-overlay nav .right-column .dropdown-menu li a:hover",
+				".navigation-overlay nav .left-column .selected"
+			]
+		},
+
 
     {
       "key": "button_secondary_color",
