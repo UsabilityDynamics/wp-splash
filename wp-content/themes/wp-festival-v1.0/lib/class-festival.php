@@ -379,6 +379,15 @@ namespace UsabilityDynamics {
       // Auto-wrap videos with container to make them responsive
       add_filter('embed_oembed_html', array( $this, 'wrap_video' ), 99, 4);
 
+      add_filter( 'content_url', function( $url ) {
+
+        $url = str_replace( '/assets/styles/app-bootstrap.css', '/themes/wp-festival-v1.0/styles/app-bootstrap.css', $url );
+        $url = str_replace( '/assets/styles/app-main.css', '/themes/wp-festival-v1.0/styles/app-main.css', $url );
+
+        return $url;
+
+      });
+
     }
     
     /**
