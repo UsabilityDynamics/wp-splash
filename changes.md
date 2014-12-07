@@ -1,3 +1,6 @@
+#### 0.4.2
+* Added buy ticket link
+
 #### 0.4.1
 * Changed book a room link
 
