@@ -1,15 +1,9 @@
 #################################################################
-## DiscoDonniePresents.com Application Container
+## DiscoDonniePresents.com wpCloud Site
 ##
-## * Select paths are exposed that are safe to be mounted for developemnt purposes.
-## * Only essential files and directories added to container that allow Grunt tasks and web-based file serving.
-## * Sunrise, Advanced Cache, etc. are now copied from wp-veener directory on build.
-## * 495XX port range is allocated to DDP for static binding.
+## - nrsysmond-config --set license_key=f3f909635f44aa45e6d4f5f7d99e6a05c6114c11
 ##
-## This will create a baseline build using usabilitydynamics/blackbox:1.1.1.
-## In practice, it may be prucent to utilize discodonniepresents/www.discodonniepresents.com:latest as source to ensure continuity.
-##
-## @ver 0.2.1
+## @version 1.0.1
 ## @author potanin@UD
 #################################################################
 
@@ -18,4 +12,26 @@ MAINTAINER    UsabilityDynamics, Inc.   <info@usabilitydynamics.com>
 
 RUN           rm -rf /var/www/**
 
-ADD           ./  /var/www/
+ADD           /wp-admin             /var/www/wp-admin
+ADD           /wp-content           /var/www/wp-content
+ADD           /wp-includes          /var/www/wp-includes
+ADD           /wp-vendor            /var/www/wp-vendor
+ADD           /.htaccess            /var/www/
+ADD           /composer.json        /var/www/
+ADD           /index.php            /var/www/
+ADD           /wp-cli.yml           /var/www/
+ADD           /wp-activate.php      /var/www/
+ADD           /wp-blog-header.php   /var/www/
+ADD           /wp-config.php        /var/www/
+ADD           /wp-cron.php          /var/www/
+ADD           /wp-links-opml.php    /var/www/
+ADD           /wp-load.php          /var/www/
+ADD           /wp-login.php         /var/www/
+ADD           /wp-mail.php          /var/www/
+ADD           /wp-settings.php      /var/www/
+ADD           /wp-signup.php        /var/www/
+ADD           /wp-trackback.php     /var/www/
+ADD           /xmlrpc.php           /var/www/
+
+ENV           DOCKER_IMAGE          DiscoDonniePresents/www.discodonniepresents.com
+ENV           DOCKER_REGISTRY       http://registry.wpcloud.io

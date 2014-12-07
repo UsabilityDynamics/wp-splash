@@ -1,3 +1,33 @@
+#### 2.4.0
+* Merge with develop branch.
+
+#### 2.3.2
+* Version bump, testing staging (dud) server deployment.
+* Added oAuth.io package dependency.
+
+#### 2.3.1
+* Added Dockerfile with CircleCI configuration for Docker Hub build and deployment.
+
+#### 2.3.0
+* (WIP) Add wp-comment-post.php rewrite for posting comments instead of symlinking file.
+* (WIP) Added standard "save site" method to fix common issues such as upload paths/urls, transient paths, etc.
+* Revert application structure to native-supported naming conventions, fixes problems with missing themes.
+* Removed wp-elastic plugin and updated wp-vertical-edm to handle schema loading. [wp option update permalink /%postname%]
+* Convert all database tables to MyISAM. [wp update db convert --type=myisam]
+* Convert all database tables to use utf8_general_ci character set. [wp update db convert --type=utf8_general_ci]
+* Removed unused Grunt/Node modules, simplified Gruntfile.js.
+* Removed local-debug.php handling, should use environment variables.
+* Removed support for ENVIRONMENT variable, expected to use WP_ENV and/or PHP_ENV.
+* Re-created new ORPHAN develop branch from develop-refactor.
+* Removed Grunt tasks in lieu of WP-CLI commands.
+* Added a generic blog-not-found.php template.
+* Added wp-pagespeed as a required plugin.
+* Added db-error.php dropin for displaying a custom message for failed DB connections.
+* Changed DB_HOST to rds.discodonniepresents.com which should be overwritten in hosts to point to local MySQL host.
+* Configured ElasticSearch settings for Fantastic Elastic to be network-delegated and moved menu under Settings.
+* ElasticSearch now takes its credentials from consants - WP_ELASTIC_SECRET_KEY and WP_ELASTIC_SERVICE_INDEX.
+* Updated ElasticSearch settings to use site-specific options - app:api:url, app:api:key and app:api:secret, delegated by policy.
+
 #### 2.2.1
 * Switched Docker build to use wpcloud/site:latest instead of hipstack/wordpress.
 * Disabled PageSpeed and NewRelic on admin.

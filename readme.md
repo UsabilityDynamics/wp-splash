@@ -1,5 +1,36 @@
-### Cache Purging
-To purge Varnish cache, run the following commands. Be advised, Varnish will only accept purge notifications from accepted IP addresses.
+### Useful CLI Commands
+
+Resote MySQL snapshot from GCS to Colossus.
+```
+gcloud sql instances import colossus gs://discodonniepresents.com/ddp_production.sql.gz --database="DiscoDonniePresents/www.discodonniepresents.com"
+```
+
+### Setting up Local Environment
+Before running the following commands, please setup a new MySQL database calling it "edm_develop".
+You will also need to have [gsutil](https://cloud.google.com/storage/docs/gsutil), [wp-cli](http://wp-cli.org/gsutil) and [direnv](https://github.com/zimbatm/direnv) installed:
+
+Assuming your local site setup will be in ~/Sites/discodonniepresents.com using the **develop** branch:
+```
+cd ~/Sites/discodonniepresents.com
+git clone git@github.com:DiscoDonniePresents/www.discodonniepresents.com.git .
+git checkout develop
+echo "export WP_ENV=develop" >> .envrc
+echo "export DB_NAME=edm" >> .envrc
+echo "export DB_USER=edm" >> .envrc
+echo "export DB_PASSWORD=your-mysql-password" >> .envrc
+echo "export DB_HOST=127.0.0.1" >> .envrc
+echo "export WP_ELASTIC_SECRET_KEY=jqnp-krmw-nmap-idpk:julw-urbp-vzst-jwwv" >> .envrc
+echo "export WP_ELASTIC_PUBLIC_KEY=jqnp-krmw-nmap-idpk-ooau-bkfm-bghf-jatg" >> .envrc
+echo "export WP_ELASTIC_SERVICE_URL=api.discodonniepresents-com.drop.ud-dev.com" >> .envrc
+echo "export WP_ELASTIC_SERVICE_INDEX=jqnp-krmw-nmap-idpk" >> .envrc
+make subtreePull
+make snapshotImport
+wp cloud sites
+```
+
+The very last command is to help you determine if wp-cli can connect to DB, meaning everything is setup good.
+
+Now we will need to configure Apache. First create a "discodonniepresents.com" host then set the following environment variables:
 
 ```
 curl -X PURGE discodonniepresents.com
@@ -172,10 +203,4 @@ docker exec -it www.discodonniepresents.com /bin/bash
 
 ```
 docker build --tag=discodonniepresents/www.discodonniepresents.com:2.1.5 /opt/sources/DiscoDonniePresents/www.discodonniepresents.com
-```
-
-### Archive Sync
-
-```
-gsutil -m rsync -rd  /var/storage/2014.dayafter.com/media/                gs://2014.dayafter.com/
 ```
