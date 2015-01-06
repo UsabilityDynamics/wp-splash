@@ -164,7 +164,7 @@ namespace UsabilityDynamics\Theme {
     /**
      *
      */
-    private function save_settings() {
+    public function save_settings() {
 
       if( !isset( $_POST[ '_sopanels_home_nonce' ] ) || !wp_verify_nonce( $_POST[ '_sopanels_home_nonce' ], 'save' ) ) return;
       if( empty( $_POST[ 'panels_js_complete' ] ) ) return;
@@ -559,7 +559,7 @@ namespace UsabilityDynamics\Theme {
     public function admin_print_styles() {
 
       /// Will move out of here when Laout Library is self-sufficient
-      wp_enqueue_style( 'ud-layout', content_url( 'themes/wp-splash/vendor/libraries/usabilitydynamics/lib-layout-engine/static/styles/post-editor.css' ) );
+      wp_enqueue_style( 'ud-layout', content_url( 'themes/' . get_stylesheet() . '/vendor/libraries/usabilitydynamics/lib-layout-engine/static/styles/post-editor.css' ) );
 
     }
 
@@ -597,9 +597,9 @@ namespace UsabilityDynamics\Theme {
      *
      */
     public function loaded() {
-      wp_register_style( 'app', content_url( 'themes/wp-splash-v2.0/static/styles/app.css' ), array(), Splash::$version, 'all' );
+      wp_register_style( 'app', content_url( 'themes/' . get_stylesheet(). '/static/styles/app.css' ), array(), Splash::$version, 'all' );
       wp_register_script( 'udx-requires', '//cdn.udx.io/udx.requires.js', array(), '3.1.2', true );
-      wp_register_script( 'app', content_url( 'themes/wp-splash-v2.0/static/scripts/app.js' ), array( 'udx-requires' ), Splash::$version, true );
+      wp_register_script( 'app', content_url( 'themes/' . get_stylesheet(). '/static/scripts/app.js' ), array( 'udx-requires' ), Splash::$version, true );
     }
 
     /**
