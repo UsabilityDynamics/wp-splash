@@ -27,7 +27,7 @@ namespace UsabilityDynamics\Theme {
      * @property version
      * @var string
      */
-    public static $version = '2.0.0';
+    public static $version = '1.1.4';
 
     /**
      * Textdomain String
@@ -164,7 +164,7 @@ namespace UsabilityDynamics\Theme {
     /**
      *
      */
-    public function save_settings() {
+    private function save_settings() {
 
       if( !isset( $_POST[ '_sopanels_home_nonce' ] ) || !wp_verify_nonce( $_POST[ '_sopanels_home_nonce' ], 'save' ) ) return;
       if( empty( $_POST[ 'panels_js_complete' ] ) ) return;
@@ -559,7 +559,7 @@ namespace UsabilityDynamics\Theme {
     public function admin_print_styles() {
 
       /// Will move out of here when Laout Library is self-sufficient
-      wp_enqueue_style( 'ud-layout', content_url( 'themes/' . get_stylesheet() . '/vendor/libraries/usabilitydynamics/lib-layout-engine/static/styles/post-editor.css' ) );
+      // wp_enqueue_style( 'ud-layout', content_url( 'themes/' . get_stylesheet() . '/vendor/libraries/usabilitydynamics/lib-layout-engine/static/styles/post-editor.css' ) );
 
     }
 
@@ -597,8 +597,15 @@ namespace UsabilityDynamics\Theme {
      *
      */
     public function loaded() {
+
       wp_register_style( 'app', content_url( 'themes/' . get_stylesheet(). '/static/styles/app.css' ), array(), Splash::$version, 'all' );
-      wp_register_script( 'udx-requires', '//cdn.udx.io/udx.requires.js', array(), '3.1.2', true );
+
+      if( !is_ssl() ) {
+        wp_register_script( 'udx-requires', '//cdn.udx.io/udx.requires.js', array(), '3.1.2', true );
+      } else {
+        wp_register_script( 'udx-requires', '//d2ysq7tsd6old.cloudfront.net/udx.requires.js', array(), '3.1.2', true );
+      }
+
       wp_register_script( 'app', content_url( 'themes/' . get_stylesheet(). '/static/scripts/app.js' ), array( 'udx-requires' ), Splash::$version, true );
     }
 
@@ -636,6 +643,17 @@ namespace UsabilityDynamics\Theme {
      *
      */
     public function template_redirect() {
+
+      header( 'PageSpeed:off' );
+
+      add_filter( 'wp_pagespeed:filters', function( $filters ) {
+
+        return array(
+          'trim_urls',
+          'remove_comments'
+        );
+
+      });
 
       if( class_exists( 'zz\Html\HTMLMinify' ) && !is_user_logged_in() ) {
         ob_start( array( $this, 'optimize' ) );
